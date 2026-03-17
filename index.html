@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Tecoa – La Fortuna, Costa Rica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #2B4A2B;
+    --verde-claro: #3d6b3d;
+    --crema: #E8DCA0;
+    --crema-oscuro: #c8bc7a;
+    --blanco: #FAFAF5;
+    --texto: #1a2e1a;
+    --gris: #6b7c6b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Lato', sans-serif; background: var(--blanco); color: var(--texto); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(43,74,43,0.97); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-icon { width: 36px; height: 36px; }
+  .nav-logo span { color: var(--crema); font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: var(--crema); text-decoration: none; font-size: 13px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.85; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 1; }
+  .lang-btn { background: var(--crema); color: var(--verde); border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .lang-btn:hover { background: var(--crema-oscuro); }
+
+  /* HERO */
+  .hero {
+    position: relative; height: 100vh; min-height: 600px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a3a1a 0%, #2B4A2B 50%, #1e3d1e 100%);
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,220,160,0.08) 0%, rgba(0,0,0,0.45) 100%);
+  }
+  .hero-img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55;
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center; padding: 0 20px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow { color: var(--crema); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.8; }
+  .hero-title { font-family: 'Playfair Display', serif; color: var(--blanco); font-size: clamp(42px, 7vw, 80px); font-weight: 700; line-height: 1.1; margin-bottom: 20px; }
+  .hero-title span { color: var(--crema); }
+  .hero-sub { color: rgba(255,255,255,0.8); font-size: 17px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 40px; }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--crema); color: var(--verde); padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 700; font-size: 14px; letter-spacing: 1px; transition: all 0.2s; border: 2px solid var(--crema); }
+  .btn-primary:hover { background: transparent; color: var(--crema); }
+  .btn-outline { background: transparent; color: var(--crema); padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 400; font-size: 14px; letter-spacing: 1px; border: 1.5px solid rgba(232,220,160,0.6); transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--crema); background: rgba(232,220,160,0.1); }
+  .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--crema); opacity: 0.6; animation: bounce 2s ease infinite; font-size: 22px; }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+  /* SECTIONS */
+  section { padding: 80px 20px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag { display: inline-block; background: var(--crema); color: var(--verde); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); color: var(--verde); line-height: 1.2; margin-bottom: 16px; }
+  .section-sub { color: var(--gris); font-size: 16px; line-height: 1.7; max-width: 580px; }
+
+  /* FEATURES */
+  .features { background: var(--verde); }
+  .features .section-title { color: var(--crema); }
+  .features .section-tag { background: rgba(232,220,160,0.2); color: var(--crema); }
+  .features .section-sub { color: rgba(232,220,160,0.75); }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 48px; }
+  .feature-card { background: rgba(232,220,160,0.08); border: 1px solid rgba(232,220,160,0.15); border-radius: 16px; padding: 28px 24px; transition: transform 0.2s, background 0.2s; }
+  .feature-card:hover { transform: translateY(-4px); background: rgba(232,220,160,0.13); }
+  .feature-icon { font-size: 28px; margin-bottom: 14px; }
+  .feature-title { font-family: 'Playfair Display', serif; color: var(--crema); font-size: 17px; margin-bottom: 8px; }
+  .feature-desc { color: rgba(232,220,160,0.65); font-size: 14px; line-height: 1.6; }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 260px 260px 260px; gap: 12px; margin-top: 48px; }
+  .gallery-item { border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-item:first-child { grid-row: span 2; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-overlay { position: absolute; inset: 0; background: rgba(43,74,43,0); transition: background 0.3s; display: flex; align-items: flex-end; padding: 16px; }
+  .gallery-item:hover .gallery-overlay { background: rgba(43,74,43,0.4); }
+  .gallery-label { color: white; font-size: 13px; font-weight: 700; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; }
+  .gallery-item:hover .gallery-label { opacity: 1; }
+
+  /* RESERVE */
+  .reserve { background: var(--blanco); }
+  .reserve-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 48px; }
+  .reserve-info p { color: var(--gris); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+  .contact-links { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+  .contact-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--verde); font-size: 14px; font-weight: 700; padding: 14px 18px; border: 1.5px solid rgba(43,74,43,0.2); border-radius: 12px; transition: all 0.2s; }
+  .contact-link:hover { background: var(--verde); color: var(--crema); border-color: var(--verde); }
+  .contact-link .icon { font-size: 18px; }
+  .reserve-form { background: var(--verde); border-radius: 20px; padding: 36px 32px; }
+  .reserve-form h3 { font-family: 'Playfair Display', serif; color: var(--crema); font-size: 22px; margin-bottom: 24px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; color: rgba(232,220,160,0.7); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .form-group input, .form-group select { width: 100%; background: rgba(232,220,160,0.1); border: 1px solid rgba(232,220,160,0.2); border-radius: 8px; padding: 12px 14px; color: var(--crema); font-size: 14px; font-family: 'Lato', sans-serif; outline: none; transition: border-color 0.2s; }
+  .form-group input::placeholder { color: rgba(232,220,160,0.4); }
+  .form-group input:focus, .form-group select:focus { border-color: var(--crema); }
+  .form-group select option { background: var(--verde); color: var(--crema); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-submit { width: 100%; background: var(--crema); color: var(--verde); border: none; border-radius: 40px; padding: 14px; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
+  .form-submit:hover { background: var(--crema-oscuro); }
+
+  /* LOCATION */
+  .location { background: #f4f2ea; }
+  .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 48px; }
+  .location-map { border-radius: 20px; overflow: hidden; height: 340px; }
+  .location-map iframe { width: 100%; height: 100%; border: none; }
+  .location-info p { color: var(--gris); font-size: 15px; line-height: 1.8; margin-bottom: 24px; }
+  .activities { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .activity { background: white; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--verde); font-weight: 700; border-left: 3px solid var(--crema-oscuro); }
+
+  /* FOOTER */
+  footer { background: var(--verde); padding: 48px 20px 28px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; margin-bottom: 40px; }
+  .footer-brand { max-width: 280px; }
+  .footer-brand p { color: rgba(232,220,160,0.6); font-size: 14px; line-height: 1.7; margin-top: 12px; }
+  .footer-links h4 { color: var(--crema); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .footer-links a { display: block; color: rgba(232,220,160,0.65); font-size: 14px; text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--crema); }
+  .footer-bottom { border-top: 1px solid rgba(232,220,160,0.15); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { color: rgba(232,220,160,0.4); font-size: 12px; }
+
+  /* MODAL */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
+  .modal-close { position: absolute; top: 20px; right: 28px; color: white; font-size: 32px; cursor: pointer; opacity: 0.7; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child { grid-row: span 1; }
+    .reserve-grid, .location-grid { grid-template-columns: 1fr; }
+    .footer-top { flex-direction: column; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== NAVEGACIÓN ========== -->
+<nav>
+  <div class="nav-logo">
+    <!-- Logo SVG inline (puedes reemplazar con: <img src="imagenes/logo.png"> ) -->
+    <svg class="nav-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 70 L50 35 L80 70" stroke="#E8DCA0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <rect x="42" y="58" width="16" height="18" rx="2" stroke="#E8DCA0" stroke-width="4" fill="none"/>
+      <path d="M15 60 L35 45 M85 60 L65 45" stroke="#E8DCA0" stroke-width="4" stroke-linecap="round"/>
+      <path d="M25 52 Q18 38 30 32 Q28 22 38 25" stroke="#E8DCA0" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="38" cy="23" r="4" fill="#E8DCA0" opacity="0.8"/>
+      <path d="M75 52 Q82 38 70 32 Q72 22 62 25" stroke="#E8DCA0" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="62" cy="23" r="4" fill="#E8DCA0" opacity="0.8"/>
+    </svg>
+    <span>CASA TECOA</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features" class="lang-es">La Casa</a>
+    <a href="#features" class="lang-en" style="display:none">The House</a>
+    <a href="#gallery" class="lang-es">Galería</a>
+    <a href="#gallery" class="lang-en" style="display:none">Gallery</a>
+    <a href="#reserve" class="lang-es">Reservar</a>
+    <a href="#reserve" class="lang-en" style="display:none">Book</a>
+    <a href="#location" class="lang-es">Ubicación</a>
+    <a href="#location" class="lang-en" style="display:none">Location</a>
+    <button class="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <!-- FOTO PRINCIPAL: cambia "imagenes/patiovega.jpeg" por cualquier foto tuya -->
+  <img class="hero-img" src="imagenes/patiovega.jpeg" alt="Casa Tecoa vista principal">
+  <div class="hero-content">
+    <p class="hero-eyebrow">La Fortuna, Costa Rica</p>
+    <h1 class="hero-title">Casa <span>Tecoa</span></h1>
+    <p class="hero-sub lang-es">Naturaleza, piscina y descanso en el corazón de La Fortuna</p>
+    <p class="hero-sub lang-en" style="display:none">Nature, pool & relaxation in the heart of La Fortuna</p>
+    <div class="hero-btns">
+      <a href="#reserve" class="btn-primary lang-es">Reservar Ahora</a>
+      <a href="#reserve" class="btn-primary lang-en" style="display:none">Book Now</a>
+      <a href="https://es-l.airbnb.com/rooms/583463793874817793" target="_blank" class="btn-outline">Airbnb</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">↓</div>
+</section>
+
+<!-- ========== CARACTERÍSTICAS ========== -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="section-tag lang-es">Lo que nos hace especiales</div>
+    <div class="section-tag lang-en" style="display:none">What makes us special</div>
+    <h2 class="section-title lang-es">Una experiencia única en La Fortuna</h2>
+    <h2 class="section-title lang-en" style="display:none">A unique experience in La Fortuna</h2>
+    <p class="section-sub lang-es">Rodeada de naturaleza exuberante, Casa Tecoa ofrece todo lo que necesitas para una estadía perfecta en Costa Rica.</p>
+    <p class="section-sub lang-en" style="display:none">Surrounded by lush nature, Casa Tecoa offers everything you need for the perfect Costa Rica stay.</p>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">🏊</div>
+        <div class="feature-title lang-es">Piscina Privada</div>
+        <div class="feature-title lang-en" style="display:none">Private Pool</div>
+        <p class="feature-desc lang-es">Disfruta nuestra piscina rodeada de jardines tropicales, con área de descanso y pérgola iluminada de noche.</p>
+        <p class="feature-desc lang-en" style="display:none">Enjoy our pool surrounded by tropical gardens, with a shaded pergola and beautiful evening lighting.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌿</div>
+        <div class="feature-title lang-es">Jardín Tropical</div>
+        <div class="feature-title lang-en" style="display:none">Tropical Garden</div>
+        <p class="feature-desc lang-es">Vegetación nativa, flores coloridas y fauna local que te harán sentir en el corazón de la selva.</p>
+        <p class="feature-desc lang-en" style="display:none">Native vegetation, colorful flowers and local wildlife that make you feel in the heart of the jungle.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏠</div>
+        <div class="feature-title lang-es">Rancho & Áreas Sociales</div>
+        <div class="feature-title lang-en" style="display:none">Ranch & Social Areas</div>
+        <p class="feature-desc lang-es">Amplio rancho con sala, comedor, cocina equipada y hamacas para reunirse en familia o con amigos.</p>
+        <p class="feature-desc lang-en" style="display:none">Spacious ranch with living room, dining area, equipped kitchen and hammocks for family gatherings.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌋</div>
+        <div class="feature-title lang-es">Vista al Volcán</div>
+        <div class="feature-title lang-en" style="display:none">Volcano View</div>
+        <p class="feature-desc lang-es">Despierta con vistas al imponente Volcán Arenal desde la comodidad de la propiedad.</p>
+        <p class="feature-desc lang-en" style="display:none">Wake up to breathtaking views of the Arenal Volcano from the comfort of the property.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛏</div>
+        <div class="feature-title lang-es">Habitaciones Cómodas</div>
+        <div class="feature-title lang-en" style="display:none">Comfortable Rooms</div>
+        <p class="feature-desc lang-es">Habitaciones acogedoras con camas de calidad, baño privado y todo lo necesario para tu descanso.</p>
+        <p class="feature-desc lang-en" style="display:none">Cozy rooms with quality beds, private bathroom and everything you need for a restful stay.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌅</div>
+        <div class="feature-title lang-es">Celajes Únicos</div>
+        <div class="feature-title lang-en" style="display:none">Stunning Sunsets</div>
+        <p class="feature-desc lang-es">Los atardeceres en La Fortuna son espectaculares. Cada noche es una pintura diferente en el cielo.</p>
+        <p class="feature-desc lang-en" style="display:none">Sunsets in La Fortuna are spectacular. Every evening paints a different masterpiece in the sky.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== GALERÍA ========== -->
+<!--
+  INSTRUCCIONES PARA LAS FOTOS:
+  1. Crea una carpeta llamada "imagenes" en la misma carpeta que este archivo index.html
+  2. Copia todas tus fotos dentro de esa carpeta "imagenes"
+  3. Los nombres de archivo deben coincidir exactamente con los que están aquí abajo
+  4. Si tus fotos tienen nombres diferentes, solo cambia el texto entre comillas en src="..."
+-->
+<section id="gallery" style="background: var(--blanco);">
+  <div class="section-inner">
+    <div class="section-tag lang-es">Galería</div>
+    <div class="section-tag lang-en" style="display:none">Gallery</div>
+    <h2 class="section-title lang-es">Conoce cada rincón</h2>
+    <h2 class="section-title lang-en" style="display:none">Explore every corner</h2>
+    <div class="gallery-grid">
+
+      <div class="gallery-item" onclick="openModal('imagenes/patiovega.jpeg')">
+        <img src="imagenes/patiovega.jpeg" alt="Patio y jardín">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span><span class="gallery-label lang-en" style="display:none">GARDEN</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/piscinaulima.jpeg')">
+        <img src="imagenes/piscinaulima.jpeg" alt="Piscina">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">PISCINA</span><span class="gallery-label lang-en" style="display:none">POOL</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/rancho.jpeg')">
+        <img src="imagenes/rancho.jpeg" alt="Rancho">
+        <div class="gallery-overlay"><span class="gallery-label">RANCHO</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/piscinaulima2.jpeg')">
+        <img src="imagenes/piscinaulima2.jpeg" alt="Piscina de noche">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">PISCINA NOCTURNA</span><span class="gallery-label lang-en" style="display:none">NIGHT POOL</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/cocina.jpeg')">
+        <img src="imagenes/cocina.jpeg" alt="Cocina">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">COCINA</span><span class="gallery-label lang-en" style="display:none">KITCHEN</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/cuarto1.jpeg')">
+        <img src="imagenes/cuarto1.jpeg" alt="Habitación">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span><span class="gallery-label lang-en" style="display:none">BEDROOM</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/celaje.jpeg')">
+        <img src="imagenes/celaje.jpeg" alt="Celaje">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">CELAJE</span><span class="gallery-label lang-en" style="display:none">SUNSET</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/baño.jpeg')">
+        <img src="imagenes/baño.jpeg" alt="Baño">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">BAÑO</span><span class="gallery-label lang-en" style="display:none">BATHROOM</span></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal('imagenes/WhatsApp_Image_2026-03-16_at_4_46_15_PM.jpeg')">
+        <img src="imagenes/WhatsApp_Image_2026-03-16_at_4_46_15_PM.jpeg" alt="Piscina noche">
+        <div class="gallery-overlay"><span class="gallery-label lang-es">NOCHE</span><span class="gallery-label lang-en" style="display:none">NIGHT</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODAL para ver fotos en grande -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <span class="modal-close">✕</span>
+  <img id="modal-img" src="" alt="Foto ampliada">
+</div>
+
+<!-- ========== RESERVACIONES ========== -->
+<section class="reserve" id="reserve">
+  <div class="section-inner">
+    <div class="section-tag lang-es">Reservaciones</div>
+    <div class="section-tag lang-en" style="display:none">Reservations</div>
+    <h2 class="section-title lang-es">¿Listo para escapar?</h2>
+    <h2 class="section-title lang-en" style="display:none">Ready to escape?</h2>
+    <div class="reserve-grid">
+
+      <!-- COLUMNA IZQUIERDA: Información de contacto -->
+      <div class="reserve-info">
+        <p class="lang-es">Reserva directamente con nosotros para los mejores precios. También puedes encontrarnos en Airbnb o contactarnos por WhatsApp e Instagram.</p>
+        <p class="lang-en" style="display:none">Book directly with us for the best rates. You can also find us on Airbnb or reach us via WhatsApp and Instagram.</p>
+        <div class="contact-links">
+          <!-- WhatsApp: cambia el número si cambia -->
+          <a class="contact-link" href="https://wa.me/50685953437" target="_blank">
+            <span class="icon">💬</span>
+            <span>WhatsApp: +506 8595-3437</span>
+          </a>
+          <!-- Correo -->
+          <a class="contact-link" href="mailto:raulbtssalas@gmail.com">
+            <span class="icon">✉️</span>
+            <span>raulbtssalas@gmail.com</span>
+          </a>
+          <!-- Instagram -->
+          <a class="contact-link" href="https://instagram.com/ranchodondemacha" target="_blank">
+            <span class="icon">📸</span>
+            <span>@ranchodondemacha</span>
+          </a>
+          <!-- Airbnb -->
+          <a class="contact-link" href="https://es-l.airbnb.com/rooms/583463793874817793" target="_blank">
+            <span class="icon">🏠</span>
+            <span>Ver en Airbnb</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: Formulario -->
+      <div class="reserve-form">
+        <h3 class="lang-es">Consulta de Disponibilidad</h3>
+        <h3 class="lang-en" style="display:none">Check Availability</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="lang-es">Llegada</label>
+            <label class="lang-en" style="display:none">Check-in</label>
+            <input type="date" id="checkin">
+          </div>
+          <div class="form-group">
+            <label class="lang-es">Salida</label>
+            <label class="lang-en" style="display:none">Check-out</label>
+            <input type="date" id="checkout">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="lang-es">Número de huéspedes</label>
+          <label class="lang-en" style="display:none">Number of guests</label>
+          <select id="guests">
+            <option>1 - 2</option>
+            <option>3 - 4</option>
+            <option>5 - 6</option>
+            <option>7+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="lang-es">Tu nombre</label>
+          <label class="lang-en" style="display:none">Your name</label>
+          <input type="text" id="nombre" placeholder="José Martínez">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="correo@ejemplo.com">
+        </div>
+        <!-- Al hacer clic, se abre WhatsApp con los datos del formulario -->
+        <button class="form-submit lang-es" onclick="sendWhatsApp()">Enviar Consulta por WhatsApp 💬</button>
+        <button class="form-submit lang-en" style="display:none" onclick="sendWhatsApp()">Send Inquiry via WhatsApp 💬</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== UBICACIÓN ========== -->
+<section class="location" id="location">
+  <div class="section-inner">
+    <div class="section-tag lang-es">Ubicación</div>
+    <div class="section-tag lang-en" style="display:none">Location</div>
+    <h2 class="section-title lang-es">En el corazón de La Fortuna</h2>
+    <h2 class="section-title lang-en" style="display:none">In the heart of La Fortuna</h2>
+    <div class="location-grid">
+
+      <!-- Mapa de Google Maps -->
+      <div class="location-map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62775.80!2d-84.6441!3d10.4657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00ddba3c1c189%3A0x7c9e4e09cdebbcd0!2sLa%20Fortuna%2C%20Alajuela!5e0!3m2!1ses!2scr!4v1615000000000!5m2!1ses!2scr"
+          allowfullscreen="" loading="lazy" title="Mapa La Fortuna">
+        </iframe>
+      </div>
+
+      <!-- Información y actividades -->
+      <div class="location-info">
+        <p class="lang-es">Casa Tecoa se encuentra en La Fortuna de San Carlos, Alajuela — uno de los destinos turísticos más importantes de Costa Rica. A pocos kilómetros del Volcán Arenal y rodeada de naturaleza increíble.</p>
+        <p class="lang-en" style="display:none">Casa Tecoa is located in La Fortuna de San Carlos, Alajuela — one of Costa Rica's most important tourist destinations, just minutes from the Arenal Volcano and surrounded by incredible nature.</p>
+        <p style="color:var(--gris);font-size:14px;margin-bottom:16px;" class="lang-es">Actividades cercanas:</p>
+        <p style="color:var(--gris);font-size:14px;margin-bottom:16px;display:none" class="lang-en">Nearby activities:</p>
+        <div class="activities">
+          <div class="activity">🌋 Volcán Arenal</div>
+          <div class="activity">♨️ Aguas Termales</div>
+          <div class="activity">🚣 Rafting</div>
+          <div class="activity">🦋 Senderismo</div>
+          <div class="activity">🐊 Caiman Tour</div>
+          <div class="activity">🌊 Catarata Fortuna</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span style="font-family:'Playfair Display',serif;color:var(--crema);font-size:20px;font-weight:600;">Casa Tecoa</span>
+        <p class="lang-es">Una casa vacacional de ensueño en La Fortuna, Costa Rica. Naturaleza, comodidad y momentos inolvidables.</p>
+        <p class="lang-en" style="display:none">A dream vacation home in La Fortuna, Costa Rica. Nature, comfort and unforgettable moments.</p>
+      </div>
+      <div class="footer-links">
+        <h4 class="lang-es">Contacto</h4>
+        <h4 class="lang-en" style="display:none">Contact</h4>
+        <a href="https://wa.me/50685953437" target="_blank">WhatsApp</a>
+        <a href="mailto:raulbtssalas@gmail.com">Email</a>
+        <a href="https://instagram.com/ranchodondemacha" target="_blank">Instagram</a>
+        <a href="https://es-l.airbnb.com/rooms/583463793874817793" target="_blank">Airbnb</a>
+      </div>
+      <div class="footer-links">
+        <h4 class="lang-es">La Casa</h4>
+        <h4 class="lang-en" style="display:none">The House</h4>
+        <a href="#features" class="lang-es">Características</a>
+        <a href="#features" class="lang-en" style="display:none">Features</a>
+        <a href="#gallery" class="lang-es">Galería</a>
+        <a href="#gallery" class="lang-en" style="display:none">Gallery</a>
+        <a href="#reserve" class="lang-es">Reservar</a>
+        <a href="#reserve" class="lang-en" style="display:none">Book</a>
+        <a href="#location" class="lang-es">Ubicación</a>
+        <a href="#location" class="lang-en" style="display:none">Location</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Casa Tecoa. La Fortuna, Alajuela, Costa Rica.</p>
+      <p>Pura Vida 🌿</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+  // --- CAMBIO DE IDIOMA ---
+  let lang = 'es';
+  function toggleLang() {
+    lang = lang === 'es' ? 'en' : 'es';
+    document.querySelectorAll('.lang-es').forEach(el => el.style.display = lang === 'es' ? '' : 'none');
+    document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+    document.querySelector('.lang-btn').textContent = lang === 'es' ? 'EN' : 'ES';
+  }
+
+  // --- MODAL DE FOTOS ---
+  function openModal(src) {
+    document.getElementById('modal-img').src = src;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // Cerrar modal con tecla ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // --- BOTÓN DE WHATSAPP ---
+  // Toma los datos del formulario y abre WhatsApp con un mensaje ya escrito
+  function sendWhatsApp() {
+    const checkin  = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    const guests   = document.getElementById('guests').value;
+    const nombre   = document.getElementById('nombre').value;
+
+    let msg;
+    if (lang === 'es') {
+      msg = `¡Hola! Me llamo ${nombre || 'un interesado'} y quisiera consultar disponibilidad en Casa Tecoa.\n\n📅 Llegada: ${checkin || 'por definir'}\n📅 Salida: ${checkout || 'por definir'}\n👥 Huéspedes: ${guests}\n\n¿Está disponible?`;
+    } else {
+      msg = `Hello! My name is ${nombre || 'a guest'} and I'd like to check availability at Casa Tecoa.\n\n📅 Check-in: ${checkin || 'TBD'}\n📅 Check-out: ${checkout || 'TBD'}\n👥 Guests: ${guests}\n\nIs it available?`;
+    }
+    window.open('https://wa.me/50685953437?text=' + encodeURIComponent(msg), '_blank');
+  }
+</script>
+
+</body>
+</html>
