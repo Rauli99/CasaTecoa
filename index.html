@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Casa Tecoa – La Fortuna, Costa Rica</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Lato:wght@300;400;700&family=Nunito+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
   :root {
-    --verde: #2B4A2B;
-    --verde-claro: #3d6b3d;
+    --verde: #2D432C;
     --crema: #E8DCA0;
     --crema-oscuro: #c8bc7a;
     --blanco: #FAFAF5;
@@ -20,61 +20,52 @@
   body { font-family: 'Lato', sans-serif; background: var(--blanco); color: var(--texto); }
 
   /* NAV */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    background: rgba(43,74,43,0.97); backdrop-filter: blur(8px);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px; height: 64px;
-  }
+  nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(45,67,44,0.97); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 64px; }
   .nav-logo { display: flex; align-items: center; gap: 10px; }
   .nav-logo-icon { width: 36px; height: 36px; }
-  .nav-logo span { color: var(--crema); font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; letter-spacing: 1px; }
-  .nav-links { display: flex; gap: 28px; align-items: center; }
-  .nav-links a { color: var(--crema); text-decoration: none; font-size: 13px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.85; transition: opacity 0.2s; }
+  .nav-logo span { color: var(--crema); font-family: 'Libre Baskerville', serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a { color: var(--crema); text-decoration: none; font-size: 18px; font-family: 'Cormorant Garamond', serif; font-weight: 600; text-transform: capitalize; opacity: 0.85; transition: opacity 0.2s; cursor: pointer; }
   .nav-links a:hover { opacity: 1; }
-  .lang-btn { background: var(--crema); color: var(--verde); border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .lang-dropdown { position: relative; }
+  .lang-btn { background: var(--crema); color: var(--verde); border: none; padding: 7px 14px; border-radius: 20px; font-size: 16px; font-family: 'Cormorant Garamond', serif; font-weight: 700; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 6px; }
   .lang-btn:hover { background: var(--crema-oscuro); }
+  .lang-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: rgba(43,74,43,0.98); border: 1px solid rgba(232,220,160,0.25); border-radius: 12px; overflow: hidden; min-width: 160px; z-index: 200; }
+  .lang-menu.open { display: block; }
+  .lang-option { display: flex; align-items: center; gap: 10px; padding: 10px 16px; color: var(--crema); font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .lang-option:hover { background: rgba(232,220,160,0.12); }
+  .lang-option.active { background: rgba(232,220,160,0.18); }
+  .lang-flag { border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; }
+
+  /* TABS */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
   /* HERO */
-  .hero {
-    position: relative; height: 100vh; min-height: 600px;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #1a3a1a 0%, #2B4A2B 50%, #1e3d1e 100%);
-  }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center, rgba(232,220,160,0.08) 0%, rgba(0,0,0,0.45) 100%);
-  }
-  .hero-img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55;
-  }
-  .hero-content {
-    position: relative; z-index: 2; text-align: center; padding: 0 20px;
-    animation: fadeUp 1s ease 0.2s both;
-  }
+  .hero { position: relative; height: 100vh; min-height: 600px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #1a3a1a 0%, #2B4A2B 50%, #1e3d1e 100%); }
+  .hero-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(232,220,160,0.08) 0%, rgba(0,0,0,0.5) 100%); }
+  .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
+  .hero-slide.active { opacity: 0.55; }
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; animation: fadeUp 1s ease 0.2s both; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-eyebrow { color: var(--crema); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.8; }
-  .hero-title { font-family: 'Playfair Display', serif; color: var(--blanco); font-size: clamp(42px, 7vw, 80px); font-weight: 700; line-height: 1.1; margin-bottom: 20px; }
-  .hero-title span { color: var(--crema); }
-  .hero-sub { color: rgba(255,255,255,0.8); font-size: 17px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 40px; }
-  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: var(--crema); color: var(--verde); padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 700; font-size: 14px; letter-spacing: 1px; transition: all 0.2s; border: 2px solid var(--crema); }
+  .hero-eyebrow { color: var(--crema); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.8; font-family: 'Nunito Sans', sans-serif; }
+  .hero-title { font-family: 'Libre Baskerville', serif; color: var(--crema); font-size: clamp(42px, 7vw, 80px); font-weight: 700; line-height: 1.1; margin-bottom: 20px; }
+  .hero-sub { color: var(--crema); font-size: 17px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 40px; font-family: 'Lato', sans-serif; opacity: 0.9; max-width: 620px; margin-left: auto; margin-right: auto; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--crema); color: var(--verde); padding: 14px 28px; border-radius: 40px; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 18px; text-transform: capitalize; transition: all 0.2s; border: 2px solid var(--crema); cursor: pointer; }
   .btn-primary:hover { background: transparent; color: var(--crema); }
-  .btn-outline { background: transparent; color: var(--crema); padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 400; font-size: 14px; letter-spacing: 1px; border: 1.5px solid rgba(232,220,160,0.6); transition: all 0.2s; }
-  .btn-outline:hover { border-color: var(--crema); background: rgba(232,220,160,0.1); }
-  .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--crema); opacity: 0.6; animation: bounce 2s ease infinite; font-size: 22px; }
+  .btn-secondary { background: transparent; color: var(--crema); padding: 14px 28px; border-radius: 40px; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 18px; text-transform: capitalize; transition: all 0.2s; border: 1.5px solid rgba(232,220,160,0.55); cursor: pointer; }
+  .btn-secondary:hover { background: rgba(232,220,160,0.12); border-color: var(--crema); }
+  .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--crema); opacity: 0.6; animation: bounce 2s ease infinite; font-size: 22px; cursor: pointer; }
   @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
   /* SECTIONS */
   section { padding: 80px 20px; }
   .section-inner { max-width: 1100px; margin: 0 auto; }
-  .section-tag { display: inline-block; background: var(--crema); color: var(--verde); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); color: var(--verde); line-height: 1.2; margin-bottom: 16px; }
-  .section-sub { color: var(--gris); font-size: 16px; line-height: 1.7; max-width: 580px; }
+  .section-tag { display: inline-block; background: var(--crema); color: var(--verde); font-size: 11px; font-family: 'Nunito Sans', sans-serif; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  .section-title { font-family: 'Libre Baskerville', serif; font-size: clamp(28px, 4vw, 44px); color: var(--verde); line-height: 1.2; margin-bottom: 16px; }
+  .section-sub { color: var(--gris); font-size: 16px; line-height: 1.7; max-width: 580px; font-family: 'Lato', sans-serif; }
 
   /* FEATURES */
   .features { background: var(--verde); }
@@ -84,410 +75,842 @@
   .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 48px; }
   .feature-card { background: rgba(232,220,160,0.08); border: 1px solid rgba(232,220,160,0.15); border-radius: 16px; padding: 28px 24px; transition: transform 0.2s, background 0.2s; }
   .feature-card:hover { transform: translateY(-4px); background: rgba(232,220,160,0.13); }
-  .feature-icon { font-size: 28px; margin-bottom: 14px; }
-  .feature-title { font-family: 'Playfair Display', serif; color: var(--crema); font-size: 17px; margin-bottom: 8px; }
-  .feature-desc { color: rgba(232,220,160,0.65); font-size: 14px; line-height: 1.6; }
+  .feature-icon { font-size: 28px; margin-bottom: 14px; line-height: 1; }
+  .feature-icon i { font-size: 30px; color: var(--crema); }
+  .feature-title { font-family: 'Libre Baskerville', serif; color: var(--crema); font-size: 17px; margin-bottom: 8px; }
+  .feature-desc { color: rgba(232,220,160,0.65); font-size: 14px; line-height: 1.6; font-family: 'Lato', sans-serif; }
 
-  /* GALLERY */
-  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 260px 260px 260px; gap: 12px; margin-top: 48px; }
-  .gallery-item { border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; }
-  .gallery-item:first-child { grid-row: span 2; }
+  /* GALLERY HERO con slideshow */
+  .gallery-hero { position: relative; height: 280px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 64px; }
+  .gallery-hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
+  .gallery-hero-slide.active { opacity: 1; }
+  .gallery-hero-overlay { position: absolute; inset: 0; background: rgba(43,74,43,0.6); }
+  .gallery-hero-content { position: relative; z-index: 2; text-align: center; }
+  .gallery-tabs { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+  .gallery-tab-btn { background: rgba(232,220,160,0.15); color: var(--crema); border: 1.5px solid rgba(232,220,160,0.4); padding: 10px 24px; border-radius: 40px; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .gallery-tab-btn:hover, .gallery-tab-btn.active { background: var(--crema); color: var(--verde); border-color: var(--crema); }
+  .gallery-section { display: none; padding: 48px 20px; background: #ece9dc; }
+  .gallery-section.active { display: block; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .gallery-item { border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; height: 220px; }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
   .gallery-item:hover img { transform: scale(1.05); }
   .gallery-overlay { position: absolute; inset: 0; background: rgba(43,74,43,0); transition: background 0.3s; display: flex; align-items: flex-end; padding: 16px; }
   .gallery-item:hover .gallery-overlay { background: rgba(43,74,43,0.4); }
-  .gallery-label { color: white; font-size: 13px; font-weight: 700; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; }
+  .gallery-label { color: white; font-size: 13px; font-family: 'Nunito Sans', sans-serif; font-weight: 700; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; }
   .gallery-item:hover .gallery-label { opacity: 1; }
+
+  /* MODAL con navegación */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999; align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal-img-wrap { position: relative; display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 85vh; }
+  .modal img { max-width: 85vw; max-height: 82vh; border-radius: 12px; object-fit: contain; display: block; }
+  .modal-close { position: fixed; top: 20px; right: 28px; color: white; font-size: 36px; cursor: pointer; opacity: 0.7; z-index: 1000; line-height: 1; }
+  .modal-close:hover { opacity: 1; }
+  .modal-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(232,220,160,0.2); border: 1.5px solid rgba(232,220,160,0.5); color: var(--crema); font-size: 28px; width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 1000; }
+  .modal-nav:hover { background: var(--crema); color: var(--verde); }
+  .modal-prev { left: 20px; }
+  .modal-next { right: 20px; }
+  .modal-counter { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); color: rgba(232,220,160,0.7); font-family: 'Nunito Sans', sans-serif; font-size: 13px; z-index: 1000; }
 
   /* RESERVE */
   .reserve { background: var(--blanco); }
   .reserve-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 48px; }
-  .reserve-info p { color: var(--gris); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+  .reserve-info p { color: var(--gris); font-size: 15px; line-height: 1.8; margin-bottom: 20px; font-family: 'Lato', sans-serif; }
   .contact-links { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
-  .contact-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--verde); font-size: 14px; font-weight: 700; padding: 14px 18px; border: 1.5px solid rgba(43,74,43,0.2); border-radius: 12px; transition: all 0.2s; }
+  .contact-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--verde); font-size: 14px; font-family: 'Nunito Sans', sans-serif; font-weight: 700; padding: 14px 18px; border: 1.5px solid rgba(43,74,43,0.2); border-radius: 12px; transition: all 0.2s; }
   .contact-link:hover { background: var(--verde); color: var(--crema); border-color: var(--verde); }
   .contact-link .icon { font-size: 18px; }
   .reserve-form { background: var(--verde); border-radius: 20px; padding: 36px 32px; }
-  .reserve-form h3 { font-family: 'Playfair Display', serif; color: var(--crema); font-size: 22px; margin-bottom: 24px; }
+  .reserve-form h3 { font-family: 'Libre Baskerville', serif; color: var(--crema); font-size: 22px; margin-bottom: 24px; }
   .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; color: rgba(232,220,160,0.7); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .form-group label { display: block; color: rgba(232,220,160,0.7); font-size: 12px; font-family: 'Nunito Sans', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
   .form-group input, .form-group select { width: 100%; background: rgba(232,220,160,0.1); border: 1px solid rgba(232,220,160,0.2); border-radius: 8px; padding: 12px 14px; color: var(--crema); font-size: 14px; font-family: 'Lato', sans-serif; outline: none; transition: border-color 0.2s; }
   .form-group input::placeholder { color: rgba(232,220,160,0.4); }
   .form-group input:focus, .form-group select:focus { border-color: var(--crema); }
   .form-group select option { background: var(--verde); color: var(--crema); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .form-submit { width: 100%; background: var(--crema); color: var(--verde); border: none; border-radius: 40px; padding: 14px; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
+  .form-submit { width: 100%; background: var(--crema); color: var(--verde); border: none; border-radius: 40px; padding: 14px; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
   .form-submit:hover { background: var(--crema-oscuro); }
 
   /* LOCATION */
   .location { background: #f4f2ea; }
   .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 48px; }
-  .location-map { border-radius: 20px; overflow: hidden; height: 340px; }
+  .location-map { border-radius: 20px; overflow: hidden; height: 380px; }
   .location-map iframe { width: 100%; height: 100%; border: none; }
-  .location-info p { color: var(--gris); font-size: 15px; line-height: 1.8; margin-bottom: 24px; }
+  .location-info p { color: var(--gris); font-size: 15px; line-height: 1.8; margin-bottom: 24px; font-family: 'Lato', sans-serif; }
   .activities { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .activity { background: white; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--verde); font-weight: 700; border-left: 3px solid var(--crema-oscuro); }
+  .activity { background: white; border-radius: 10px; padding: 12px 14px; font-size: 13px; font-family: 'Nunito Sans', sans-serif; color: var(--verde); font-weight: 700; border-left: 3px solid var(--crema-oscuro); display: flex; align-items: center; gap: 6px; }
 
   /* FOOTER */
   footer { background: var(--verde); padding: 48px 20px 28px; }
   .footer-inner { max-width: 1100px; margin: 0 auto; }
   .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; margin-bottom: 40px; }
   .footer-brand { max-width: 280px; }
-  .footer-brand p { color: rgba(232,220,160,0.6); font-size: 14px; line-height: 1.7; margin-top: 12px; }
-  .footer-links h4 { color: var(--crema); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
-  .footer-links a { display: block; color: rgba(232,220,160,0.65); font-size: 14px; text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+  .footer-brand p { color: rgba(232,220,160,0.6); font-size: 14px; line-height: 1.7; margin-top: 12px; font-family: 'Lato', sans-serif; }
+  .footer-links h4 { color: var(--crema); font-size: 12px; font-family: 'Nunito Sans', sans-serif; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .footer-links a { display: block; color: rgba(232,220,160,0.65); font-size: 14px; font-family: 'Lato', sans-serif; text-decoration: none; margin-bottom: 8px; transition: color 0.2s; cursor: pointer; }
   .footer-links a:hover { color: var(--crema); }
   .footer-bottom { border-top: 1px solid rgba(232,220,160,0.15); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-  .footer-bottom p { color: rgba(232,220,160,0.4); font-size: 12px; }
+  .footer-bottom p { color: rgba(232,220,160,0.4); font-size: 12px; font-family: 'Lato', sans-serif; }
 
-  /* MODAL */
-  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; }
-  .modal.open { display: flex; }
-  .modal img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
-  .modal-close { position: absolute; top: 20px; right: 28px; color: white; font-size: 32px; cursor: pointer; opacity: 0.7; }
+  /* RESEÑAS */
+  .resenas { background: var(--blanco); padding-top: 100px; }
+  .equipo-section { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-bottom: 80px; }
+  .equipo-foto-wrap { position: relative; border-radius: 24px; overflow: hidden; height: 420px; box-shadow: 0 20px 60px rgba(45,67,44,0.18); }
+  .equipo-foto-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .equipo-foto-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,67,44,0.4) 0%, transparent 60%); }
+  .equipo-texto { display: flex; flex-direction: column; gap: 16px; }
+  .equipo-texto .section-tag { align-self: flex-start; }
+  .equipo-texto h2 { font-family: 'Libre Baskerville', serif; font-size: clamp(26px, 3.5vw, 40px); color: var(--verde); line-height: 1.2; }
+  .equipo-texto p { color: var(--gris); font-size: 16px; line-height: 1.8; font-family: 'Lato', sans-serif; }
+  .equipo-placeholder { background: linear-gradient(135deg, #e8f0e8, #d4e4d4); border: 2px dashed rgba(45,67,44,0.25); border-radius: 24px; height: 420px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--verde); opacity: 0.6; }
+  .equipo-placeholder i { font-size: 48px; }
+  .equipo-placeholder span { font-family: 'Lato', sans-serif; font-size: 14px; text-align: center; max-width: 200px; line-height: 1.5; }
+  .divider-resenas { width: 60px; height: 3px; background: var(--crema-oscuro); border-radius: 2px; margin: 8px 0; }
+  .resenas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .resena-card { background: white; border-radius: 20px; padding: 28px; box-shadow: 0 4px 24px rgba(45,67,44,0.08); border: 1px solid rgba(45,67,44,0.07); display: flex; flex-direction: column; gap: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+  .resena-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(45,67,44,0.14); }
+  .resena-estrellas { color: #e8b84b; font-size: 18px; }
+  .resena-texto { color: #4a5e4a; font-size: 15px; line-height: 1.75; font-family: 'Lato', sans-serif; font-style: italic; flex: 1; }
+  .resena-autor { display: flex; align-items: center; gap: 12px; border-top: 1px solid rgba(45,67,44,0.08); padding-top: 16px; }
+  .resena-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--verde), #4a7a4a); display: flex; align-items: center; justify-content: center; color: var(--crema); font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+  .resena-info { display: flex; flex-direction: column; }
+  .resena-nombre { font-family: 'Libre Baskerville', serif; color: var(--verde); font-size: 14px; font-weight: 700; }
+  .resena-origen { color: var(--gris); font-size: 12px; font-family: 'Lato', sans-serif; }
+  .resena-badge { margin-left: auto; background: rgba(232,220,160,0.3); color: var(--verde); font-size: 11px; font-family: 'Nunito Sans', sans-serif; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  @media (max-width: 768px) { .equipo-section { grid-template-columns: 1fr; } .resenas-grid { grid-template-columns: 1fr; } }
 
-  /* RESPONSIVE */
+  /* WHATSAPP FLOAT */
+  .whatsapp-float { position: fixed; bottom: 28px; right: 28px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: #25D366; box-shadow: 0 4px 16px rgba(37,211,102,0.4); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(37,211,102,0.55); }
+  .whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+
+  /* CALENDARIO */
+  .calendar-section { margin-top: 56px; }
+  .calendar-section .section-tag { background: rgba(232,220,160,0.2); color: var(--crema); }
+  .calendar-section h3 { font-family: 'Libre Baskerville', serif; color: #c8991a; font-size: 22px; margin-bottom: 8px; }
+  .calendar-section p { color: #b8860b; font-size: 14px; font-family: 'Lato', sans-serif; margin-bottom: 24px; line-height: 1.6; }
+  .calendar-wrapper { border-radius: 16px; overflow: hidden; border: 1px solid rgba(232,220,160,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+  .calendar-wrapper iframe { display: block; width: 100%; height: 550px; border: none; }
+
   @media (max-width: 768px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-    .gallery-item:first-child { grid-row: span 1; }
+    nav { padding: 0 16px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 12px; }
+    .hero-btns { gap: 8px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
     .reserve-grid, .location-grid { grid-template-columns: 1fr; }
     .footer-top { flex-direction: column; }
     .form-row { grid-template-columns: 1fr; }
+    .modal-prev { left: 8px; }
+    .modal-next { right: 8px; }
   }
 </style>
+<link rel="preload" as="image" href="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/12.jpg">
 </head>
 <body>
 
-<!-- ========== NAVEGACIÓN ========== -->
+<!-- WHATSAPP FLOAT -->
+<a class="whatsapp-float" href="https://wa.me/50685953437" target="_blank">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 0C7.164 0 0 7.163 0 16c0 2.822.736 5.468 2.027 7.77L0 32l8.479-2.001A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.77-1.853l-.486-.289-5.03 1.187 1.21-4.899-.317-.502A13.267 13.267 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.86c-.398-.199-2.354-1.162-2.719-1.295-.365-.132-.631-.199-.897.199-.265.398-1.03 1.295-1.263 1.561-.232.265-.465.298-.863.1-.398-.2-1.681-.62-3.203-1.977-1.184-1.056-1.983-2.36-2.215-2.758-.232-.398-.025-.613.175-.812.179-.178.398-.465.597-.698.2-.232.266-.398.398-.664.133-.265.067-.498-.033-.697-.1-.2-.897-2.162-1.229-2.96-.324-.778-.653-.672-.897-.684l-.764-.013c-.265 0-.697.1-.1063.498-.365.398-1.396 1.362-1.396 3.324s1.43 3.856 1.629 4.122c.199.265 2.815 4.297 6.82 6.027.953.412 1.697.658 2.277.842.957.305 1.828.262 2.516.159.767-.114 2.354-.963 2.686-1.893.332-.93.332-1.727.232-1.893-.1-.166-.365-.265-.763-.464z"/>
+  </svg>
+</a>
+
+<!-- NAV — con todos los botones arriba -->
 <nav>
   <div class="nav-logo">
-    <!-- Logo SVG inline (puedes reemplazar con: <img src="imagenes/logo.png"> ) -->
-    <svg class="nav-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 70 L50 35 L80 70" stroke="#E8DCA0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <rect x="42" y="58" width="16" height="18" rx="2" stroke="#E8DCA0" stroke-width="4" fill="none"/>
-      <path d="M15 60 L35 45 M85 60 L65 45" stroke="#E8DCA0" stroke-width="4" stroke-linecap="round"/>
-      <path d="M25 52 Q18 38 30 32 Q28 22 38 25" stroke="#E8DCA0" stroke-width="3" stroke-linecap="round" fill="none"/>
-      <circle cx="38" cy="23" r="4" fill="#E8DCA0" opacity="0.8"/>
-      <path d="M75 52 Q82 38 70 32 Q72 22 62 25" stroke="#E8DCA0" stroke-width="3" stroke-linecap="round" fill="none"/>
-      <circle cx="62" cy="23" r="4" fill="#E8DCA0" opacity="0.8"/>
-    </svg>
-    <span>CASA TECOA</span>
+    <img src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Assets/Logo_Casa_Tecoa.png" alt="Casa Tecoa" style="height:56px;width:auto;">
   </div>
   <div class="nav-links">
-    <a href="#features" class="lang-es">La Casa</a>
-    <a href="#features" class="lang-en" style="display:none">The House</a>
-    <a href="#gallery" class="lang-es">Galería</a>
-    <a href="#gallery" class="lang-en" style="display:none">Gallery</a>
-    <a href="#reserve" class="lang-es">Reservar</a>
-    <a href="#reserve" class="lang-en" style="display:none">Book</a>
-    <a href="#location" class="lang-es">Ubicación</a>
-    <a href="#location" class="lang-en" style="display:none">Location</a>
-    <button class="lang-btn" onclick="toggleLang()">EN</button>
+    <a onclick="showTab('home')" class="lang-es">Inicio</a>
+    <a onclick="showTab('home')" class="lang-en" style="display:none">Home</a>
+    <a onclick="showTab('features')" class="lang-es">Casa</a>
+    <a onclick="showTab('features')" class="lang-en" style="display:none">House</a>
+    <a onclick="showTab('gallery')" class="lang-es">Galería</a>
+    <a onclick="showTab('gallery')" class="lang-en" style="display:none">Gallery</a>
+    <a onclick="showTab('location')" class="lang-es">Ubicación</a>
+    <a onclick="showTab('location')" class="lang-en" style="display:none">Location</a>
+    <a onclick="showTab('reserve')" class="lang-es">Reservar</a>
+    <a onclick="showTab('reserve')" class="lang-en" style="display:none">Book</a>
+    <a onclick="showTab('resenas')" class="lang-es">Reseñas</a>
+    <a onclick="showTab('resenas')" class="lang-en" style="display:none">Reviews</a>
+    <a onclick="showTab('resenas')" class="lang-fr" style="display:none">Avis</a>
+    <div class="lang-dropdown">
+      <button class="lang-btn" id="langBtn" onclick="toggleLangMenu()">
+        <svg id="langFlagBtn" width="22" height="15" viewBox="0 0 900 600"><rect width="300" height="600" fill="#006847"/><rect x="300" width="300" height="600" fill="#fff"/><rect x="600" width="300" height="600" fill="#CE1126"/></svg>
+        <span id="langLabelBtn">ESP</span> ▾
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-option active" onclick="setLang('es')">
+          <svg width="26" height="18" viewBox="0 0 900 600" class="lang-flag"><rect width="300" height="600" fill="#006847"/><rect x="300" width="300" height="600" fill="#fff"/><rect x="600" width="300" height="600" fill="#CE1126"/></svg>
+          Español
+        </div>
+        <div class="lang-option" onclick="setLang('en')">
+          <svg width="26" height="18" viewBox="0 0 190 100" class="lang-flag"><rect width="190" height="100" fill="#B22234"/><rect y="7.7" width="190" height="7.7" fill="white"/><rect y="23" width="190" height="7.7" fill="white"/><rect y="38.5" width="190" height="7.7" fill="white"/><rect y="53.8" width="190" height="7.7" fill="white"/><rect y="69.2" width="190" height="7.7" fill="white"/><rect y="84.6" width="190" height="7.7" fill="white"/><rect width="76" height="53.8" fill="#3C3B6E"/></svg>
+          English
+        </div>
+        <div class="lang-option" onclick="setLang('fr')">
+          <svg width="26" height="18" viewBox="0 0 900 600" class="lang-flag"><rect width="300" height="600" fill="#002395"/><rect x="300" width="300" height="600" fill="#fff"/><rect x="600" width="300" height="600" fill="#ED2939"/></svg>
+          Français
+        </div>
+      </div>
+    </div>
   </div>
 </nav>
 
-<!-- ========== HERO ========== -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <!-- FOTO PRINCIPAL: cambia "imagenes/patiovega.jpeg" por cualquier foto tuya -->
-  <img class="hero-img" src="imagenes/patiovega.jpeg" alt="Casa Tecoa vista principal">
-  <div class="hero-content">
-    <p class="hero-eyebrow">La Fortuna, Costa Rica</p>
-    <h1 class="hero-title">Casa <span>Tecoa</span></h1>
-    <p class="hero-sub lang-es">Naturaleza, piscina y descanso en el corazón de La Fortuna</p>
-    <p class="hero-sub lang-en" style="display:none">Nature, pool & relaxation in the heart of La Fortuna</p>
-    <div class="hero-btns">
-      <a href="#reserve" class="btn-primary lang-es">Reservar Ahora</a>
-      <a href="#reserve" class="btn-primary lang-en" style="display:none">Book Now</a>
-      <a href="https://es-l.airbnb.com/rooms/583463793874817793" target="_blank" class="btn-outline">Airbnb</a>
+<!-- PESTAÑA: INICIO -->
+<div id="tab-home" class="tab-content active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <img class="hero-slide active" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/12.jpg" alt="Casa Tecoa">
+    <img class="hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/18.jpg" alt="Casa Tecoa">
+    <img class="hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/19.jpg" alt="Casa Tecoa">
+    <img class="hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/20.jpg" alt="Casa Tecoa">
+    <img class="hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/piscinaherp.JPG" alt="Casa Tecoa">
+    <div class="hero-content">
+      <p class="hero-eyebrow">La Fortuna, Costa Rica</p>
+      <h1 class="hero-title">Casa Tecoa</h1>
+      <p class="hero-sub lang-es">Naturaleza, paz y relajación a pocos minutos de aventuras por vivir y lugares por explorar.</p>
+      <p class="hero-sub lang-en" style="display:none">Nature, peace and relaxation just minutes away from adventures to live and places to explore.</p>
+      <div class="hero-btns">
+        <button class="btn-primary lang-es" onclick="showTab('reserve')">Reservar ahora</button>
+        <button class="btn-primary lang-en" style="display:none" onclick="showTab('reserve')">Book now</button>
+        <button class="btn-secondary lang-es" onclick="showTab('features')">Casa</button>
+        <button class="btn-secondary lang-en" style="display:none" onclick="showTab('features')">House</button>
+        <button class="btn-secondary lang-es" onclick="showTab('gallery')">Galería</button>
+        <button class="btn-secondary lang-en" style="display:none" onclick="showTab('gallery')">Gallery</button>
+        <button class="btn-secondary lang-es" onclick="showTab('location')">Ubicación</button>
+        <button class="btn-secondary lang-en" style="display:none" onclick="showTab('location')">Location</button>
+        <button class="btn-secondary lang-es" onclick="showTab('resenas')">⭐ Reseñas</button>
+        <button class="btn-secondary lang-en" style="display:none" onclick="showTab('resenas')">⭐ Reviews</button>
+      </div>
     </div>
-  </div>
-  <div class="scroll-indicator">↓</div>
-</section>
-
-<!-- ========== CARACTERÍSTICAS ========== -->
-<section class="features" id="features">
-  <div class="section-inner">
-    <div class="section-tag lang-es">Lo que nos hace especiales</div>
-    <div class="section-tag lang-en" style="display:none">What makes us special</div>
-    <h2 class="section-title lang-es">Una experiencia única en La Fortuna</h2>
-    <h2 class="section-title lang-en" style="display:none">A unique experience in La Fortuna</h2>
-    <p class="section-sub lang-es">Rodeada de naturaleza exuberante, Casa Tecoa ofrece todo lo que necesitas para una estadía perfecta en Costa Rica.</p>
-    <p class="section-sub lang-en" style="display:none">Surrounded by lush nature, Casa Tecoa offers everything you need for the perfect Costa Rica stay.</p>
-    <div class="features-grid">
-
-      <div class="feature-card">
-        <div class="feature-icon">🏊</div>
-        <div class="feature-title lang-es">Piscina Privada</div>
-        <div class="feature-title lang-en" style="display:none">Private Pool</div>
-        <p class="feature-desc lang-es">Disfruta nuestra piscina rodeada de jardines tropicales, con área de descanso y pérgola iluminada de noche.</p>
-        <p class="feature-desc lang-en" style="display:none">Enjoy our pool surrounded by tropical gardens, with a shaded pergola and beautiful evening lighting.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🌿</div>
-        <div class="feature-title lang-es">Jardín Tropical</div>
-        <div class="feature-title lang-en" style="display:none">Tropical Garden</div>
-        <p class="feature-desc lang-es">Vegetación nativa, flores coloridas y fauna local que te harán sentir en el corazón de la selva.</p>
-        <p class="feature-desc lang-en" style="display:none">Native vegetation, colorful flowers and local wildlife that make you feel in the heart of the jungle.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🏠</div>
-        <div class="feature-title lang-es">Rancho & Áreas Sociales</div>
-        <div class="feature-title lang-en" style="display:none">Ranch & Social Areas</div>
-        <p class="feature-desc lang-es">Amplio rancho con sala, comedor, cocina equipada y hamacas para reunirse en familia o con amigos.</p>
-        <p class="feature-desc lang-en" style="display:none">Spacious ranch with living room, dining area, equipped kitchen and hammocks for family gatherings.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🌋</div>
-        <div class="feature-title lang-es">Vista al Volcán</div>
-        <div class="feature-title lang-en" style="display:none">Volcano View</div>
-        <p class="feature-desc lang-es">Despierta con vistas al imponente Volcán Arenal desde la comodidad de la propiedad.</p>
-        <p class="feature-desc lang-en" style="display:none">Wake up to breathtaking views of the Arenal Volcano from the comfort of the property.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🛏</div>
-        <div class="feature-title lang-es">Habitaciones Cómodas</div>
-        <div class="feature-title lang-en" style="display:none">Comfortable Rooms</div>
-        <p class="feature-desc lang-es">Habitaciones acogedoras con camas de calidad, baño privado y todo lo necesario para tu descanso.</p>
-        <p class="feature-desc lang-en" style="display:none">Cozy rooms with quality beds, private bathroom and everything you need for a restful stay.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🌅</div>
-        <div class="feature-title lang-es">Celajes Únicos</div>
-        <div class="feature-title lang-en" style="display:none">Stunning Sunsets</div>
-        <p class="feature-desc lang-es">Los atardeceres en La Fortuna son espectaculares. Cada noche es una pintura diferente en el cielo.</p>
-        <p class="feature-desc lang-en" style="display:none">Sunsets in La Fortuna are spectacular. Every evening paints a different masterpiece in the sky.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ========== GALERÍA ========== -->
-<!--
-  INSTRUCCIONES PARA LAS FOTOS:
-  1. Crea una carpeta llamada "imagenes" en la misma carpeta que este archivo index.html
-  2. Copia todas tus fotos dentro de esa carpeta "imagenes"
-  3. Los nombres de archivo deben coincidir exactamente con los que están aquí abajo
-  4. Si tus fotos tienen nombres diferentes, solo cambia el texto entre comillas en src="..."
--->
-<section id="gallery" style="background: var(--blanco);">
-  <div class="section-inner">
-    <div class="section-tag lang-es">Galería</div>
-    <div class="section-tag lang-en" style="display:none">Gallery</div>
-    <h2 class="section-title lang-es">Conoce cada rincón</h2>
-    <h2 class="section-title lang-en" style="display:none">Explore every corner</h2>
-    <div class="gallery-grid">
-
-      <div class="gallery-item" onclick="openModal('imagenes/patiovega.jpeg')">
-        <img src="imagenes/patiovega.jpeg" alt="Patio y jardín">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span><span class="gallery-label lang-en" style="display:none">GARDEN</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/piscinaulima.jpeg')">
-        <img src="imagenes/piscinaulima.jpeg" alt="Piscina">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">PISCINA</span><span class="gallery-label lang-en" style="display:none">POOL</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/rancho.jpeg')">
-        <img src="imagenes/rancho.jpeg" alt="Rancho">
-        <div class="gallery-overlay"><span class="gallery-label">RANCHO</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/piscinaulima2.jpeg')">
-        <img src="imagenes/piscinaulima2.jpeg" alt="Piscina de noche">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">PISCINA NOCTURNA</span><span class="gallery-label lang-en" style="display:none">NIGHT POOL</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/cocina.jpeg')">
-        <img src="imagenes/cocina.jpeg" alt="Cocina">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">COCINA</span><span class="gallery-label lang-en" style="display:none">KITCHEN</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/cuarto1.jpeg')">
-        <img src="imagenes/cuarto1.jpeg" alt="Habitación">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span><span class="gallery-label lang-en" style="display:none">BEDROOM</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/celaje.jpeg')">
-        <img src="imagenes/celaje.jpeg" alt="Celaje">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">CELAJE</span><span class="gallery-label lang-en" style="display:none">SUNSET</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/baño.jpeg')">
-        <img src="imagenes/baño.jpeg" alt="Baño">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">BAÑO</span><span class="gallery-label lang-en" style="display:none">BATHROOM</span></div>
-      </div>
-
-      <div class="gallery-item" onclick="openModal('imagenes/WhatsApp_Image_2026-03-16_at_4_46_15_PM.jpeg')">
-        <img src="imagenes/WhatsApp_Image_2026-03-16_at_4_46_15_PM.jpeg" alt="Piscina noche">
-        <div class="gallery-overlay"><span class="gallery-label lang-es">NOCHE</span><span class="gallery-label lang-en" style="display:none">NIGHT</span></div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- MODAL para ver fotos en grande -->
-<div class="modal" id="modal" onclick="closeModal()">
-  <span class="modal-close">✕</span>
-  <img id="modal-img" src="" alt="Foto ampliada">
+    <div class="scroll-indicator" onclick="showTab('features')">↓</div>
+  </section>
 </div>
 
-<!-- ========== RESERVACIONES ========== -->
-<section class="reserve" id="reserve">
-  <div class="section-inner">
-    <div class="section-tag lang-es">Reservaciones</div>
-    <div class="section-tag lang-en" style="display:none">Reservations</div>
-    <h2 class="section-title lang-es">¿Listo para escapar?</h2>
-    <h2 class="section-title lang-en" style="display:none">Ready to escape?</h2>
-    <div class="reserve-grid">
+<!-- PESTAÑA: LA CASA -->
+<div id="tab-features" class="tab-content">
+  <section class="features" style="padding-top: 100px;">
+    <div class="section-inner">
+      <div class="section-tag lang-es">Lo que nos hace especiales</div>
+      <div class="section-tag lang-en" style="display:none">What makes us special</div>
+      <h2 class="section-title lang-es">Una experiencia única en La Fortuna</h2>
+      <h2 class="section-title lang-en" style="display:none">A unique experience in La Fortuna</h2>
+      <p class="section-sub lang-es">Rodeada de naturaleza exuberante, Casa Tecoa ofrece todo lo que necesitas para una estadía perfecta en Costa Rica.</p>
+      <p class="section-sub lang-en" style="display:none">Surrounded by lush nature, Casa Tecoa offers everything you need for the perfect Costa Rica stay.</p>
+      <div class="features-grid">
 
-      <!-- COLUMNA IZQUIERDA: Información de contacto -->
-      <div class="reserve-info">
-        <p class="lang-es">Reserva directamente con nosotros para los mejores precios. También puedes encontrarnos en Airbnb o contactarnos por WhatsApp e Instagram.</p>
-        <p class="lang-en" style="display:none">Book directly with us for the best rates. You can also find us on Airbnb or reach us via WhatsApp and Instagram.</p>
-        <div class="contact-links">
-          <!-- WhatsApp: cambia el número si cambia -->
-          <a class="contact-link" href="https://wa.me/50685953437" target="_blank">
-            <span class="icon">💬</span>
-            <span>WhatsApp: +506 8595-3437</span>
-          </a>
-          <!-- Correo -->
-          <a class="contact-link" href="mailto:raulbtssalas@gmail.com">
-            <span class="icon">✉️</span>
-            <span>raulbtssalas@gmail.com</span>
-          </a>
-          <!-- Instagram -->
-          <a class="contact-link" href="https://instagram.com/ranchodondemacha" target="_blank">
-            <span class="icon">📸</span>
-            <span>@ranchodondemacha</span>
-          </a>
-          <!-- Airbnb -->
-          <a class="contact-link" href="https://es-l.airbnb.com/rooms/583463793874817793" target="_blank">
-            <span class="icon">🏠</span>
-            <span>Ver en Airbnb</span>
-          </a>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-water-ladder"></i></div>
+          <div class="feature-title lang-es">Piscina privada</div>
+          <div class="feature-title lang-en" style="display:none">Private pool</div>
+          <p class="feature-desc lang-es">Disfruta nuestra piscina rodeada de jardines tropicales, con área de descanso y pérgola iluminada de noche.</p>
+          <p class="feature-desc lang-en" style="display:none">Enjoy our pool surrounded by tropical gardens, with a shaded pergola and beautiful evening lighting.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-tree"></i></div>
+          <div class="feature-title lang-es">Jardín tropical</div>
+          <div class="feature-title lang-en" style="display:none">Tropical garden</div>
+          <p class="feature-desc lang-es">Vegetación nativa, flores coloridas, frutos comestibles y fauna local que te harán sentir en el corazón de la selva.</p>
+          <p class="feature-desc lang-en" style="display:none">Native vegetation, colorful flowers, edible fruits and local wildlife that make you feel in the heart of the jungle.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-house"></i></div>
+          <div class="feature-title lang-es">Rancho & áreas sociales</div>
+          <div class="feature-title lang-en" style="display:none">Ranch & social areas</div>
+          <p class="feature-desc lang-es">Amplio rancho con sala, comedor y hamacas para reunirse en familia o con amigos.</p>
+          <p class="feature-desc lang-en" style="display:none">Spacious ranch with living room, dining area and hammocks for family gatherings.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-volcano"></i></div>
+          <div class="feature-title lang-es">Vista al volcán</div>
+          <div class="feature-title lang-en" style="display:none">Volcano view</div>
+          <p class="feature-desc lang-es">Despierta con vistas al imponente Volcán Arenal desde la comodidad de la propiedad.</p>
+          <p class="feature-desc lang-en" style="display:none">Wake up to breathtaking views of the Arenal Volcano from the comfort of the property.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-bed"></i></div>
+          <div class="feature-title lang-es">Habitaciones cómodas</div>
+          <div class="feature-title lang-en" style="display:none">Comfortable rooms</div>
+          <p class="feature-desc lang-es">Habitaciones acogedoras con camas de calidad y aire acondicionado para tu máximo descanso.</p>
+          <p class="feature-desc lang-en" style="display:none">Cozy rooms with quality beds and air conditioning for your ultimate rest and comfort.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-sun"></i></div>
+          <div class="feature-title lang-es">Celajes únicos</div>
+          <div class="feature-title lang-en" style="display:none">Stunning sunsets</div>
+          <p class="feature-desc lang-es">Los atardeceres en La Fortuna son espectaculares. Cada noche es una pintura diferente en el cielo.</p>
+          <p class="feature-desc lang-en" style="display:none">Sunsets in La Fortuna are spectacular. Every evening paints a different masterpiece in the sky.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-wifi"></i></div>
+          <div class="feature-title lang-es">Wifi gratis</div>
+          <div class="feature-title lang-en" style="display:none">Free wifi</div>
+          <p class="feature-desc lang-es">Conexión a internet de alta velocidad disponible en toda la propiedad sin costo adicional.</p>
+          <p class="feature-desc lang-en" style="display:none">High-speed internet connection available throughout the property at no extra cost.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-utensils"></i></div>
+          <div class="feature-title lang-es">Cocina equipada</div>
+          <div class="feature-title lang-en" style="display:none">Equipped kitchen</div>
+          <p class="feature-desc lang-es">Cocina completamente equipada con estufa, refrigerador, utensilios y todo lo necesario para preparar tus comidas.</p>
+          <p class="feature-desc lang-en" style="display:none">Fully equipped kitchen with stove, refrigerator, utensils and everything you need to prepare your meals.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-car"></i></div>
+          <div class="feature-title lang-es">Parking privado</div>
+          <div class="feature-title lang-en" style="display:none">Private parking</div>
+          <p class="feature-desc lang-es">Estacionamiento privado y seguro dentro de la propiedad para que llegues sin preocupaciones.</p>
+          <p class="feature-desc lang-en" style="display:none">Private and secure parking within the property so you can arrive without worries.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-shower"></i></div>
+          <div class="feature-title lang-es">Baño privado</div>
+          <div class="feature-title lang-en" style="display:none">Private bathroom</div>
+          <p class="feature-desc lang-es">Baño privado con ducha, agua caliente y todos los implementos necesarios para tu higiene personal.</p>
+          <p class="feature-desc lang-en" style="display:none">Private bathroom with shower, hot water and all the necessary amenities for your personal hygiene.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-person-running"></i></div>
+          <div class="feature-title lang-es">Zonas recreativas</div>
+          <div class="feature-title lang-en" style="display:none">Recreational areas</div>
+          <p class="feature-desc lang-es">Cancha de fútbol (soccer) con marcos, net de volleyball y zona verde disponible para actividades.</p>
+          <p class="feature-desc lang-en" style="display:none">Soccer field with goals, volleyball net and green area available for activities.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PESTAÑA: GALERÍA -->
+<div id="tab-gallery" class="tab-content">
+  <div class="gallery-hero">
+    <!-- Slideshow portada galería -->
+    <img class="gallery-hero-slide active" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/portada%20galeria/inst.jpg" alt="Galería">
+    <img class="gallery-hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/portada%20galeria/pgaleria1.jpg" alt="Galería">
+    <img class="gallery-hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/portada%20galeria/pgaleria2.jpg" alt="Galería">
+    <img class="gallery-hero-slide" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/portada%20galeria/pgaleria3.jpg" alt="Galería">
+    <div class="gallery-hero-overlay"></div>
+    <div class="gallery-hero-content">
+      <div class="section-tag lang-es" style="margin-bottom:20px;">Galería</div>
+      <div class="section-tag lang-en" style="display:none;margin-bottom:20px;">Gallery</div>
+      <div class="gallery-tabs">
+        <button class="gallery-tab-btn active" onclick="showGallery('piscina', this)">
+          <span class="lang-es">Piscina</span><span class="lang-en" style="display:none">Pool</span>
+        </button>
+        <button class="gallery-tab-btn" onclick="showGallery('habitaciones', this)">
+          <span class="lang-es">Habitaciones</span><span class="lang-en" style="display:none">Rooms</span>
+        </button>
+        <button class="gallery-tab-btn" onclick="showGallery('jardin', this)">
+          <span class="lang-es">Jardín</span><span class="lang-en" style="display:none">Garden</span>
+        </button>
+        <button class="gallery-tab-btn" onclick="showGallery('fauna', this)">
+          <span class="lang-es">Frutos y fauna</span><span class="lang-en" style="display:none">Fruits & wildlife</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PISCINA -->
+  <div id="gallery-piscina" class="gallery-section active">
+    <div class="section-inner">
+      <div class="gallery-grid" id="grid-piscina">
+        <div class="gallery-item" onclick="openModal('piscina',0)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/_A737726.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',1)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/3.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',2)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/13.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',3)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/15.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',4)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/17.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',5)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/18.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',6)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1281.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',7)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1283.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',8)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1557.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',9)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1592.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',10)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1620.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('piscina',11)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/INSTAR.jpg" alt="Piscina"><div class="gallery-overlay"><span class="gallery-label">PISCINA</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABITACIONES -->
+  <div id="gallery-habitaciones" class="gallery-section">
+    <div class="section-inner">
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openModal('habitaciones',0)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/4.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',1)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/A.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',2)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/cocina1.jpg" alt="Cocina"><div class="gallery-overlay"><span class="gallery-label lang-es">COCINA</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',3)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/Cuarto.jpg" alt="Cuarto"><div class="gallery-overlay"><span class="gallery-label lang-es">CUARTO</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',4)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/D.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',5)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/Hab.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',6)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionB.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',7)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionC.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',8)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionC2.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',9)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionp.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',10)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionp2.jpg" alt="Habitación"><div class="gallery-overlay"><span class="gallery-label lang-es">HABITACIÓN</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',11)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala1.jpeg" alt="Sala"><div class="gallery-overlay"><span class="gallery-label lang-es">SALA</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',12)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala2.jpeg" alt="Sala"><div class="gallery-overlay"><span class="gallery-label lang-es">SALA</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',13)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala3.jpeg" alt="Sala"><div class="gallery-overlay"><span class="gallery-label lang-es">SALA</span></div></div>
+        <div class="gallery-item" onclick="openModal('habitaciones',14)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala4.jpeg" alt="Sala"><div class="gallery-overlay"><span class="gallery-label lang-es">SALA</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JARDÍN -->
+  <div id="gallery-jardin" class="gallery-section">
+    <div class="section-inner">
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openModal('jardin',0)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/_A737719.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',1)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/6.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',2)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/11.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',3)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/19.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',4)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/20.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',5)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/G.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',6)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/HU7A1253.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',7)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/HU7A1256.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',8)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/HU7A1453.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',9)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/canchaulimanoche.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',10)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/instagram.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+        <div class="gallery-item" onclick="openModal('jardin',11)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/J.jpg" alt="Jardin"><div class="gallery-overlay"><span class="gallery-label lang-es">JARDÍN</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRUTOS Y FAUNA -->
+  <div id="gallery-fauna" class="gallery-section">
+    <div class="section-inner">
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openModal('fauna',0)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/5.jpg" alt="Fauna"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',1)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/7.jpg" alt="Fauna"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',2)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/10.jpg" alt="Fauna"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',3)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/HU7A1452.jpg" alt="Fauna"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',4)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/HU7A1461.jpg" alt="Fauna"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',5)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/HU7A1473.jpg" alt="Fauna"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',6)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/garzatigresa.jpg" alt="Garza tigresa"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',7)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/cacao.jpg" alt="Cacao"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+        <div class="gallery-item" onclick="openModal('fauna',8)">
+        <img loading="lazy" src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/higuanacomiendo.jpg" alt="Iguana"><div class="gallery-overlay"><span class="gallery-label lang-es">NATURALEZA</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL con navegación -->
+<div class="modal" id="modal">
+  <span class="modal-close" onclick="closeModal()">✕</span>
+  <button class="modal-nav modal-prev" onclick="changePhoto(-1)">‹</button>
+  <div class="modal-img-wrap">
+    <img id="modal-img" src="" alt="Foto ampliada">
+  </div>
+  <button class="modal-nav modal-next" onclick="changePhoto(1)">›</button>
+  <div class="modal-counter" id="modal-counter"></div>
+</div>
+
+<!-- PESTAÑA: RESERVAR -->
+<div id="tab-reserve" class="tab-content">
+  <section class="reserve" style="padding-top: 100px;">
+    <div class="section-inner">
+      <div class="section-tag lang-es">Reservaciones</div>
+      <div class="section-tag lang-en" style="display:none">Reservations</div>
+      <h2 class="section-title lang-es">¿Listo para escapar?</h2>
+      <h2 class="section-title lang-en" style="display:none">Ready to escape?</h2>
+      <div class="reserve-grid">
+        <div class="reserve-info">
+          <p class="lang-es">Reserva directamente con nosotros para los mejores precios. Contáctanos por WhatsApp, Instagram o Facebook.</p>
+          <p class="lang-en" style="display:none">Book directly with us for the best rates. Reach us via WhatsApp, Instagram or Facebook.</p>
+          <div class="contact-links">
+            <a class="contact-link" href="https://wa.me/50685953437" target="_blank"><span class="icon">💬</span><span>WhatsApp: +506 8595-3437</span></a>
+            <a class="contact-link" href="https://wa.me/50689904401" target="_blank"><span class="icon">💬</span><span>WhatsApp: +506 8990-4401</span></a>
+            <a class="contact-link" href="/cdn-cgi/l/email-protection#1a687b6f76786e69697b767b695a7d777b737634797577"><span class="icon">✉️</span><span><span class="__cf_email__" data-cfemail="ee9c8f9b828c9a9d9d8f828f9dae89838f8782c08d8183">[email&#160;protected]</span></span></a>
+            <a class="contact-link" href="https://instagram.com/casatecoa" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></span><span>@casatecoa</span></a>
+            <a class="contact-link" href="https://www.facebook.com/profile.php?id=100088882131351" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></span><span>Casa Tecoa</span></a>
+          </div>
+        </div>
+        <div class="reserve-form">
+          <h3 class="lang-es">Consulta de disponibilidad</h3>
+          <h3 class="lang-en" style="display:none">Check availability</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="lang-es">Llegada</label><label class="lang-en" style="display:none">Check-in</label>
+              <input type="date" id="checkin">
+            </div>
+            <div class="form-group">
+              <label class="lang-es">Salida</label><label class="lang-en" style="display:none">Check-out</label>
+              <input type="date" id="checkout">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="lang-es">Número de huéspedes</label><label class="lang-en" style="display:none">Number of guests</label>
+            <select id="guests"><option>1 - 2</option><option>3 - 4</option><option>5 - 6</option><option>7+</option></select>
+          </div>
+          <div class="form-group">
+            <label class="lang-es">Tu nombre</label><label class="lang-en" style="display:none">Your name</label>
+            <input type="text" id="nombre" placeholder="José Martínez">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="correo@ejemplo.com">
+          </div>
+          <button class="form-submit lang-es" onclick="sendWhatsApp()">Enviar consulta por WhatsApp 💬</button>
+          <button class="form-submit lang-en" style="display:none" onclick="sendWhatsApp()">Send inquiry via WhatsApp 💬</button>
         </div>
       </div>
 
-      <!-- COLUMNA DERECHA: Formulario -->
-      <div class="reserve-form">
-        <h3 class="lang-es">Consulta de Disponibilidad</h3>
-        <h3 class="lang-en" style="display:none">Check Availability</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="lang-es">Llegada</label>
-            <label class="lang-en" style="display:none">Check-in</label>
-            <input type="date" id="checkin">
-          </div>
-          <div class="form-group">
-            <label class="lang-es">Salida</label>
-            <label class="lang-en" style="display:none">Check-out</label>
-            <input type="date" id="checkout">
-          </div>
+      <!-- CALENDARIO DE DISPONIBILIDAD -->
+      <div class="calendar-section">
+        <div class="section-tag lang-es" style="margin-bottom:14px;">Disponibilidad</div>
+        <div class="section-tag lang-en" style="display:none;margin-bottom:14px;">Availability</div>
+        <div class="section-tag lang-fr" style="display:none;margin-bottom:14px;">Disponibilité</div>
+        <h3 class="lang-es" style="font-family:'Libre Baskerville',serif;color:#c8991a;font-size:22px;margin-bottom:8px;">Calendario de disponibilidad</h3>
+        <h3 class="lang-en" style="display:none;font-family:'Libre Baskerville',serif;color:#c8991a;font-size:22px;margin-bottom:8px;">Availability calendar</h3>
+        <h3 class="lang-fr" style="display:none;font-family:'Libre Baskerville',serif;color:#c8991a;font-size:22px;margin-bottom:8px;">Calendrier de disponibilité</h3>
+        <p class="lang-es" style="color:#b8860b;font-size:14px;font-family:'Lato',sans-serif;margin-bottom:24px;line-height:1.6;">Consulta las fechas disponibles antes de enviar tu consulta. Las fechas marcadas indican reservas ya confirmadas.</p>
+        <p class="lang-en" style="display:none;color:#b8860b;font-size:14px;font-family:'Lato',sans-serif;margin-bottom:24px;line-height:1.6;">Check available dates before sending your inquiry. Marked dates indicate already confirmed bookings.</p>
+        <p class="lang-fr" style="display:none;color:#b8860b;font-size:14px;font-family:'Lato',sans-serif;margin-bottom:24px;line-height:1.6;">Consultez les dates disponibles avant d'envoyer votre demande. Les dates marquées indiquent des réservations déjà confirmées.</p>
+        <div class="calendar-wrapper">
+          <iframe src="https://calendar.google.com/calendar/embed?height=550&wkst=1&ctz=America%2FCosta_Rica&showPrint=0&showTitle=0&showNav=1&showDate=1&showTabs=0&showCalendars=0&mode=MONTH&src=Njc0OTI5ZmNjZjZlNTg0YjY3NTE2NDU3ODkzMGM2ZDZkMTFjM2Q2YzY1OWM2ZTU1YzI0ZmYxMDc1M2UzYjczMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23e4c441" style="border:none" scrolling="no" title="Calendario de disponibilidad Casa Tecoa"></iframe>
         </div>
-        <div class="form-group">
-          <label class="lang-es">Número de huéspedes</label>
-          <label class="lang-en" style="display:none">Number of guests</label>
-          <select id="guests">
-            <option>1 - 2</option>
-            <option>3 - 4</option>
-            <option>5 - 6</option>
-            <option>7+</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="lang-es">Tu nombre</label>
-          <label class="lang-en" style="display:none">Your name</label>
-          <input type="text" id="nombre" placeholder="José Martínez">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="email" placeholder="correo@ejemplo.com">
-        </div>
-        <!-- Al hacer clic, se abre WhatsApp con los datos del formulario -->
-        <button class="form-submit lang-es" onclick="sendWhatsApp()">Enviar Consulta por WhatsApp 💬</button>
-        <button class="form-submit lang-en" style="display:none" onclick="sendWhatsApp()">Send Inquiry via WhatsApp 💬</button>
       </div>
 
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- ========== UBICACIÓN ========== -->
-<section class="location" id="location">
-  <div class="section-inner">
-    <div class="section-tag lang-es">Ubicación</div>
-    <div class="section-tag lang-en" style="display:none">Location</div>
-    <h2 class="section-title lang-es">En el corazón de La Fortuna</h2>
-    <h2 class="section-title lang-en" style="display:none">In the heart of La Fortuna</h2>
-    <div class="location-grid">
-
-      <!-- Mapa de Google Maps -->
-      <div class="location-map">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62775.80!2d-84.6441!3d10.4657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00ddba3c1c189%3A0x7c9e4e09cdebbcd0!2sLa%20Fortuna%2C%20Alajuela!5e0!3m2!1ses!2scr!4v1615000000000!5m2!1ses!2scr"
-          allowfullscreen="" loading="lazy" title="Mapa La Fortuna">
-        </iframe>
+<!-- PESTAÑA: UBICACIÓN -->
+<div id="tab-location" class="tab-content">
+  <section class="location" style="padding-top: 100px;">
+    <div class="section-inner">
+      <div class="section-tag lang-es">Ubicación</div>
+      <div class="section-tag lang-en" style="display:none">Location</div>
+      <h2 class="section-title lang-es">En los alrededores de La Fortuna</h2>
+      <h2 class="section-title lang-en" style="display:none">In the surroundings of La Fortuna</h2>
+      <div class="location-grid">
+        <div class="location-map">
+          <!-- Mapa en carro desde Parque La Fortuna hasta Casa Tecoa -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d15688!2d-84.56!3d10.462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8fa002dffb8e21b1%3A0x6e5b9e1e3b2c2e1a!2sParque+La+Fortuna%2C+La+Fortuna+de+San+Carlos!3m2!1d10.4683!2d-84.6441!4m5!1s0x0%3A0x0!2zMTDCsDI3JzI2LjIiTiA4NMKwMzAnMjQuNSJX!3m2!1d10.45729!2d-84.50680!5e0!3m2!1ses!2scr!4v1615000000000!5m2!1ses!2scr" allowfullscreen="" loading="lazy" title="Ruta en carro a Casa Tecoa"></iframe>
+        </div>
+        <div class="location-info">
+          <p class="lang-es">Casa Tecoa se ubica a escasos kilómetros de La Fortuna de San Carlos, Alajuela — el destino turístico más visitado de Costa Rica. Pequeño como el país en que reside, este distrito turístico destaca desde hace años y hasta la fecha por su increíble biodiversidad, la cual combinada con la hospitalidad que destaca a los costarricenses da paso a increíbles aventuras llenas de diversión, personas increíbles y paisajes inolvidables.</p>
+          <p class="lang-en" style="display:none">Casa Tecoa is located just a few kilometers from La Fortuna de San Carlos, Alajuela — Costa Rica's most visited tourist destination. Small like the country it belongs to, this tourist district has stood out for years for its incredible biodiversity, which combined with the hospitality that characterizes Costa Ricans gives way to incredible adventures full of fun, amazing people and unforgettable landscapes.</p>
+          <p style="color:var(--gris);font-size:14px;margin-bottom:16px;margin-top:8px;" class="lang-es">Actividades cercanas:</p>
+          <p style="color:var(--gris);font-size:14px;margin-bottom:16px;margin-top:8px;display:none" class="lang-en">Nearby activities:</p>
+          <div class="activities">
+            <div class="activity">🌋 Volcán Arenal</div>
+            <div class="activity">♨️ Aguas termales</div>
+            <div class="activity">🚣 Rafting</div>
+            <div class="activity">🦋 Senderismo</div>
+            <div class="activity">🐊 Caiman tour</div>
+            <div class="activity">🌊 Catarata Fortuna</div>
+            <div class="activity">🍫☕ Tour chocolate y café</div>
+            <div class="activity">🐒 Monkey Park</div>
+            <div class="activity">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
+                <path d="M12 3C7 3 3 7 3 12H21C21 7 17 3 12 3Z" fill="#8B6914"/>
+                <rect x="4" y="12" width="16" height="4" rx="2" fill="#a07820"/>
+                <rect x="8" y="16" width="8" height="2" rx="1" fill="#6b4c11"/>
+                <path d="M6 12 Q6 8 12 8 Q18 8 18 12" fill="#c8a45a"/>
+              </svg>
+              Canopy
+            </div>
+            <div class="activity">🌉 Puentes colgantes</div>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
+</div>
 
-      <!-- Información y actividades -->
-      <div class="location-info">
-        <p class="lang-es">Casa Tecoa se encuentra en La Fortuna de San Carlos, Alajuela — uno de los destinos turísticos más importantes de Costa Rica. A pocos kilómetros del Volcán Arenal y rodeada de naturaleza increíble.</p>
-        <p class="lang-en" style="display:none">Casa Tecoa is located in La Fortuna de San Carlos, Alajuela — one of Costa Rica's most important tourist destinations, just minutes from the Arenal Volcano and surrounded by incredible nature.</p>
-        <p style="color:var(--gris);font-size:14px;margin-bottom:16px;" class="lang-es">Actividades cercanas:</p>
-        <p style="color:var(--gris);font-size:14px;margin-bottom:16px;display:none" class="lang-en">Nearby activities:</p>
-        <div class="activities">
-          <div class="activity">🌋 Volcán Arenal</div>
-          <div class="activity">♨️ Aguas Termales</div>
-          <div class="activity">🚣 Rafting</div>
-          <div class="activity">🦋 Senderismo</div>
-          <div class="activity">🐊 Caiman Tour</div>
-          <div class="activity">🌊 Catarata Fortuna</div>
+<!-- PESTAÑA: RESEÑAS -->
+<div id="tab-resenas" class="tab-content">
+  <section class="resenas">
+    <div class="section-inner">
+
+      <!-- SECCIÓN EQUIPO / DUEÑOS -->
+      <div class="equipo-section">
+        <div class="equipo-foto-wrap">
+          <img src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Assets/duenos.JPG" alt="Los dueños de Casa Tecoa"
+            onerror="this.parentElement.innerHTML='<div class='equipo-placeholder'><i class='fa-solid fa-camera-retro'></i><span>Sube tu foto como<br><strong>duenos.JPG</strong><br>en Assets de Supabase</span></div>'">
+          <div class="equipo-foto-overlay"></div>
+        </div>
+        <div class="equipo-texto">
+          <div class="section-tag lang-es">Nuestra historia</div>
+          <div class="section-tag lang-en" style="display:none">Our story</div>
+          <div class="section-tag lang-fr" style="display:none">Notre histoire</div>
+          <div class="divider-resenas"></div>
+          <h2 class="lang-es">Las personas detrás de Casa Tecoa</h2>
+          <h2 class="lang-en" style="display:none">The people behind Casa Tecoa</h2>
+          <h2 class="lang-fr" style="display:none">Les personnes derrière Casa Tecoa</h2>
+          <p class="lang-es">Somos una pareja de esposos costarricenses, una educadora de profesión y un empresario, ambos apasionados por el buen servicio y la hospitalidad. Hace 4 años decidimos que queríamos compartir esas dos pasiones con el mundo por medio de un servicio, así fue como nació Casa Tecoa, un hermoso espacio verde lleno de frutas, animales y naturaleza tan variada que es difícil de creer. Nuestra intención es que cada cliente obtenga una experiencia relajada, familiar y tranquila, a solo minutos de uno de los distritos más turísticos de nuestro país, donde las opciones se sienten infinitas para explorar y conocer este hermoso país.</p>
+          <p class="lang-en" style="display:none">We are a Costa Rican married couple — a teacher and an entrepreneur — both passionate about great service and hospitality. Four years ago we decided we wanted to share those two passions with the world, and that is how Casa Tecoa was born: a beautiful green space full of fruits, animals and nature so varied it is hard to believe. Our intention is for every guest to enjoy a relaxed, family-friendly and peaceful experience, just minutes from one of the most touristic districts in our country, where the options feel endless to explore and discover this beautiful land.</p>
+          <p class="lang-fr" style="display:none">Nous sommes un couple marié costaricien — une enseignante et un entrepreneur — tous deux passionnés par le service et l'hospitalité. Il y a 4 ans, nous avons décidé de partager ces deux passions avec le monde, et c'est ainsi que Casa Tecoa est née : un magnifique espace vert plein de fruits, d'animaux et d'une nature si variée qu'elle est difficile à croire. Notre intention est que chaque client vive une expérience détendue, familiale et tranquille, à quelques minutes de l'un des districts les plus touristiques de notre pays.</p>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
+      <!-- SECCIÓN RESEÑAS -->
+      <div class="section-tag lang-es">Lo que dicen nuestros huéspedes</div>
+      <div class="section-tag lang-en" style="display:none">What our guests say</div>
+      <div class="section-tag lang-fr" style="display:none">Ce que disent nos hôtes</div>
+      <h2 class="section-title lang-es">Reseñas reales de Airbnb</h2>
+      <h2 class="section-title lang-en" style="display:none">Real Airbnb reviews</h2>
+      <h2 class="section-title lang-fr" style="display:none">Avis réels Airbnb</h2>
 
-<!-- ========== FOOTER ========== -->
+      <div class="resenas-grid">
+
+        <!-- Reseña 1 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Todo el alojamiento está al aire libre (cocina, sala de estar, comedor, etc.), y cada dormitorio tiene acceso independiente desde el exterior. Nos encantó el lugar: nos divertimos en la piscina, agradecemos el aire acondicionado y la ubicación fue excelente. Diana hizo todo lo posible por ayudarnos cuando el agua dejó de funcionar repentinamente. ¡Fue una anfitriona realmente excepcional y volveríamos con mucho gusto!</p>
+          <p class="resena-texto lang-en" style="display:none">The entire accommodation is open-air, and each bedroom has independent access from outside. We loved the place: we had fun in the pool, appreciated the AC and the location was excellent. Diana went above and beyond when the water suddenly stopped working. She was a truly exceptional host and we would return with great pleasure!</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">J</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Jane</span>
+              <span class="resena-origen">Squamish, Canadá</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Hace 1 semana</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 2 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">El lugar es muy bonito, un patio bien amplio, la piscina hermosa, es perfecto para ir a descansar. El único inconveniente que encontré es que solo hay un baño, pero por lo demás me gustó mucho.</p>
+          <p class="resena-texto lang-en" style="display:none">The place is very beautiful, a large patio, a gorgeous pool, perfect for rest and relaxation. The only inconvenience was that there is only one bathroom, but everything else I loved very much.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">N</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Noelia</span>
+              <span class="resena-origen">Heredia, Costa Rica</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Diciembre 2025</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 3 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Nos sentimos muy cómodos en el airbnb de Diana. Es un lugar precioso, muy tranquilo y privado. El lugar es muchísimo más grande de lo que se aprecia en las fotos y Diana es una host muy amable y atenta. Muy satisfechos, sin duda volveremos.</p>
+          <p class="resena-texto lang-en" style="display:none">We felt very comfortable at Diana's Airbnb. It is a beautiful place, very quiet and private. The property is much larger than it appears in the photos and Diana is a very kind and attentive host. Very satisfied, we will definitely return.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">A</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Antony</span>
+              <span class="resena-origen">Heredia, Costa Rica</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Diciembre 2025</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 4 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Hermosa casa y muy buena ubicación, pero sobre todo la amabilidad y atención de Diana fue espectacular. Sin duda un lugar que volvería a rentar, nos sentimos como en casa.</p>
+          <p class="resena-texto lang-en" style="display:none">Beautiful house and great location, but above all Diana's kindness and attention was spectacular. Definitely a place we would rent again — we felt right at home.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">M</div>
+            <div class="resena-info">
+              <span class="resena-nombre">María</span>
+              <span class="resena-origen">Cobán, Guatemala</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Abril 2025</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 5 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Un paraíso para relajarse y descansar. La propiedad es super linda, con zonas verdes espaciosas y excelente mantenimiento. A una distancia razonable del centro de La Fortuna. Íbamos en plan tranquilo y de descanso, y el lugar fue ideal. Muchas gracias Diana, definitivamente esperamos volver.</p>
+          <p class="resena-texto lang-en" style="display:none">A paradise to relax and rest. Beautiful property with spacious green areas and excellent upkeep. A reasonable distance from La Fortuna. We were looking for a quiet getaway and the place was ideal. Many thanks Diana, we definitely hope to return.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">R</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Rolando</span>
+              <span class="resena-origen">Heredia, Costa Rica</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Abril 2025</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 6 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">La casa está situada en medio de un hermoso jardín enorme con piscina. Hay porterías de fútbol y una red. El jardín está bien cuidado, al igual que la casa. Disfrutamos de la vida al aire libre con la naturaleza circundante. Vimos pájaros, colibríes, ardillas, desayunamos coco y no queríamos irnos.</p>
+          <p class="resena-texto lang-en" style="display:none">The house is set in a beautiful huge garden with a pool. There are football goals and a net. The garden is well maintained, as is the house. We enjoyed outdoor life surrounded by nature. We saw birds, hummingbirds, squirrels, had coconut for breakfast and didn't want to leave.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">I</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Iveta</span>
+              <span class="resena-origen">República Checa</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Febrero 2025</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 7 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">El espacio al aire libre es lo más destacado. Muy privado, hermoso jardín y piscina super agradable. Lugar muy tranquilo y relajante. La casa es funcional con cocina básica, buena ropa de cama, aire acondicionado y un gran comedor cubierto con hamaca. Diana es muy receptiva y atenta. ¡Fantástico anfitrión!</p>
+          <p class="resena-texto lang-en" style="display:none">The outdoor space is the highlight. Very private, beautiful garden and wonderful pool. Very quiet and relaxing. The house is functional with basic kitchen, good bedding, AC in each room and a large covered dining area with a hammock. Diana is very responsive and attentive. Fantastic host!</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">A</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Alexandre</span>
+              <span class="resena-origen">Toronto, Canadá</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Diciembre 2024</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 8 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Excelente lugar para compartir en familia. Y Diana un 100 como anfitriona. Espero regresar al lugar.</p>
+          <p class="resena-texto lang-en" style="display:none">Excellent place to share with family. Diana is a 100/100 as a host. I hope to return.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">M</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Maria</span>
+              <span class="resena-origen">Airbnb</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Marzo 2024</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 9 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Muy bonito el lugar, todo tal cual está publicado y el lugar se presta para descansar y distraerse. Muy conforme con el resultado.</p>
+          <p class="resena-texto lang-en" style="display:none">Very nice place, exactly as advertised and perfect for rest and fun. Very satisfied with the result.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">J</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Jason</span>
+              <span class="resena-origen">Potrero, Costa Rica</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Abril 2023</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+        <!-- Reseña 10 -->
+        <div class="resena-card">
+          <div class="resena-estrellas">★★★★★</div>
+          <p class="resena-texto lang-es">Muy hermoso y tranquilo el lugar, la anfitriona amable en todo momento. Nos encantaría volver.</p>
+          <p class="resena-texto lang-en" style="display:none">Very beautiful and peaceful place, the host was friendly at all times. We would love to come back.</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">D</div>
+            <div class="resena-info">
+              <span class="resena-nombre">Detniree</span>
+              <span class="resena-origen">Airbnb</span>
+              <span class="resena-origen" style="color:var(--crema-oscuro);font-size:11px;">Hace 1 semana</span>
+            </div>
+            <span class="resena-badge">Airbnb</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <span style="font-family:'Playfair Display',serif;color:var(--crema);font-size:20px;font-weight:600;">Casa Tecoa</span>
+        <span style="font-family:'Libre Baskerville',serif;color:var(--crema);font-size:20px;font-weight:700;">Casa Tecoa</span>
         <p class="lang-es">Una casa vacacional de ensueño en La Fortuna, Costa Rica. Naturaleza, comodidad y momentos inolvidables.</p>
         <p class="lang-en" style="display:none">A dream vacation home in La Fortuna, Costa Rica. Nature, comfort and unforgettable moments.</p>
       </div>
       <div class="footer-links">
         <h4 class="lang-es">Contacto</h4>
         <h4 class="lang-en" style="display:none">Contact</h4>
-        <a href="https://wa.me/50685953437" target="_blank">WhatsApp</a>
-        <a href="mailto:raulbtssalas@gmail.com">Email</a>
-        <a href="https://instagram.com/ranchodondemacha" target="_blank">Instagram</a>
-        <a href="https://es-l.airbnb.com/rooms/583463793874817793" target="_blank">Airbnb</a>
+        <a href="https://wa.me/50685953437" target="_blank">WhatsApp +506 8595-3437 ó +506 8990-4401</a>
+        <a href="/cdn-cgi/l/email-protection#ddafbca8b1bfa9aeaebcb1bcae9dbab0bcb4b1f3beb2b0"><span class="__cf_email__" data-cfemail="b4c6d5c1d8d6c0c7c7d5d8d5c7f4d3d9d5ddd89ad7dbd9">[email&#160;protected]</span></a>
+        <a href="https://instagram.com/casatecoa" target="_blank" style="display:flex;align-items:center;gap:8px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>@casatecoa</a>
+        <a href="https://www.facebook.com/profile.php?id=100088882131351" target="_blank" style="display:flex;align-items:center;gap:8px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Casa Tecoa</a>
       </div>
       <div class="footer-links">
-        <h4 class="lang-es">La Casa</h4>
-        <h4 class="lang-en" style="display:none">The House</h4>
-        <a href="#features" class="lang-es">Características</a>
-        <a href="#features" class="lang-en" style="display:none">Features</a>
-        <a href="#gallery" class="lang-es">Galería</a>
-        <a href="#gallery" class="lang-en" style="display:none">Gallery</a>
-        <a href="#reserve" class="lang-es">Reservar</a>
-        <a href="#reserve" class="lang-en" style="display:none">Book</a>
-        <a href="#location" class="lang-es">Ubicación</a>
-        <a href="#location" class="lang-en" style="display:none">Location</a>
+        <h4 class="lang-es">La casa</h4>
+        <h4 class="lang-en" style="display:none">The house</h4>
+        <a onclick="showTab('features')" class="lang-es">Características</a>
+        <a onclick="showTab('features')" class="lang-en" style="display:none">Features</a>
+        <a onclick="showTab('gallery')" class="lang-es">Galería</a>
+        <a onclick="showTab('gallery')" class="lang-en" style="display:none">Gallery</a>
+        <a onclick="showTab('reserve')" class="lang-es">Reservar</a>
+        <a onclick="showTab('reserve')" class="lang-en" style="display:none">Book</a>
+        <a onclick="showTab('location')" class="lang-es">Ubicación</a>
+        <a onclick="showTab('location')" class="lang-en" style="display:none">Location</a>
+        <a onclick="" class="lang-es">Transfers privados</a>
+        <a onclick="" class="lang-en" style="display:none">Private transfers</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -497,49 +920,189 @@
   </div>
 </footer>
 
-<!-- ========== JAVASCRIPT ========== -->
 <script>
-  // --- CAMBIO DE IDIOMA ---
-  let lang = 'es';
-  function toggleLang() {
-    lang = lang === 'es' ? 'en' : 'es';
-    document.querySelectorAll('.lang-es').forEach(el => el.style.display = lang === 'es' ? '' : 'none');
-    document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
-    document.querySelector('.lang-btn').textContent = lang === 'es' ? 'EN' : 'ES';
+  // ---- PESTAÑAS ----
+  let gallerySlideInterval = null;
+  let galleryHeroIndex = 0;
+
+  function initGallerySlideshow() {
+    const slides = document.querySelectorAll('.gallery-hero-slide');
+    if (!slides.length) return;
+    if (gallerySlideInterval) return; // ya está corriendo
+    // Asegurar que la primera slide esté activa
+    slides.forEach((s, i) => s.classList.toggle('active', i === 0));
+    galleryHeroIndex = 0;
+    gallerySlideInterval = setInterval(() => {
+      slides[galleryHeroIndex].classList.remove('active');
+      galleryHeroIndex = (galleryHeroIndex + 1) % slides.length;
+      slides[galleryHeroIndex].classList.add('active');
+    }, 3000);
   }
 
-  // --- MODAL DE FOTOS ---
-  function openModal(src) {
-    document.getElementById('modal-img').src = src;
+  function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tabName).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (tabName === 'gallery') initGallerySlideshow();
+  }
+
+  // ---- GALERÍA CATEGORÍAS ----
+  function showGallery(name, btn) {
+    document.querySelectorAll('.gallery-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('gallery-' + name).classList.add('active');
+    document.querySelectorAll('.gallery-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // ---- FOTOS POR CATEGORÍA ----
+  const galeria = {
+    piscina: [
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/_A737726.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/3.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/13.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/15.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/17.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/18.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1281.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1283.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1557.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1592.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/HU7A1620.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Piscina/INSTAR.jpg'
+    ],
+    habitaciones: [
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/4.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/A.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/cocina1.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/Cuarto.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/D.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/Hab.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionB.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionC.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionC2.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionp.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/habitacionp2.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala1.jpeg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala2.jpeg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala3.jpeg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Habitaciones/sala4.jpeg'
+    ],
+    jardin: [
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/_A737719.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/6.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/11.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/19.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/20.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/G.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/HU7A1253.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/HU7A1256.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/HU7A1453.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/canchaulimanoche.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/instagram.jpg','https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Jardin/J.jpg'
+    ],
+    fauna: [
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/5.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/7.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/10.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/HU7A1452.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/HU7A1461.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/HU7A1473.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/garzatigresa.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/cacao.jpg',
+      'https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Frutos%20y%20fauna/higuanacomiendo.jpg'
+    ]
+  };
+  let currentCategory = 'piscina';
+  let currentIndex = 0;
+
+  function openModal(category, index) {
+    currentCategory = category;
+    currentIndex = index;
+    updateModal();
     document.getElementById('modal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+
+  function updateModal() {
+    const fotos = galeria[currentCategory];
+    document.getElementById('modal-img').src = fotos[currentIndex];
+    document.getElementById('modal-counter').textContent = (currentIndex + 1) + ' / ' + fotos.length;
+  }
+
+  function changePhoto(dir) {
+    const fotos = galeria[currentCategory];
+    currentIndex = (currentIndex + dir + fotos.length) % fotos.length;
+    updateModal();
+  }
+
   function closeModal() {
     document.getElementById('modal').classList.remove('open');
     document.body.style.overflow = '';
   }
-  // Cerrar modal con tecla ESC
-  document.addEventListener('keydown', function(e) {
+
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowRight') changePhoto(1);
+    if (e.key === 'ArrowLeft') changePhoto(-1);
   });
 
-  // --- BOTÓN DE WHATSAPP ---
-  // Toma los datos del formulario y abre WhatsApp con un mensaje ya escrito
-  function sendWhatsApp() {
-    const checkin  = document.getElementById('checkin').value;
-    const checkout = document.getElementById('checkout').value;
-    const guests   = document.getElementById('guests').value;
-    const nombre   = document.getElementById('nombre').value;
+  // Cerrar solo si clic en fondo oscuro
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
 
+  // ---- SLIDESHOW HERO ----
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  let heroIndex = 0;
+  setInterval(() => {
+    heroSlides[heroIndex].classList.remove('active');
+    heroIndex = (heroIndex + 1) % heroSlides.length;
+    heroSlides[heroIndex].classList.add('active');
+  }, 2500);
+
+  // slideshow galería iniciado en showTab()
+
+  // ---- IDIOMA ----
+  let lang = 'es';
+  const langConfig = {
+    es: { flag: '🇲🇽', label: 'ESP' },
+    en: { flag: '🇺🇸', label: 'ENG' },
+    fr: { flag: '🇫🇷', label: 'FRA' }
+  };
+
+  function toggleLangMenu() {
+    document.getElementById('langMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    const dropdown = document.querySelector('.lang-dropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+      document.getElementById('langMenu').classList.remove('open');
+    }
+  });
+
+  const flagSVGs = {
+    es: '<rect width="300" height="600" fill="#006847"/><rect x="300" width="300" height="600" fill="#fff"/><rect x="600" width="300" height="600" fill="#CE1126"/>',
+    en: '<rect width="190" height="100" fill="#B22234"/><rect y="7.7" width="190" height="7.7" fill="white"/><rect y="23" width="190" height="7.7" fill="white"/><rect y="38.5" width="190" height="7.7" fill="white"/><rect y="53.8" width="190" height="7.7" fill="white"/><rect y="69.2" width="190" height="7.7" fill="white"/><rect y="84.6" width="190" height="7.7" fill="white"/><rect width="76" height="53.8" fill="#3C3B6E"/>',
+    fr: '<rect width="300" height="600" fill="#002395"/><rect x="300" width="300" height="600" fill="#fff"/><rect x="600" width="300" height="600" fill="#ED2939"/>'
+  };
+  const flagViewBox = { es: '0 0 900 600', en: '0 0 190 100', fr: '0 0 900 600' };
+
+  function setLang(newLang) {
+    lang = newLang;
+    document.querySelectorAll('.lang-es').forEach(el => el.style.display = lang === 'es' ? '' : 'none');
+    document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+    document.querySelectorAll('.lang-fr').forEach(el => el.style.display = lang === 'fr' ? '' : 'none');
+    const cfg = langConfig[lang];
+    const flagEl = document.getElementById('langFlagBtn');
+    flagEl.setAttribute('viewBox', flagViewBox[lang]);
+    flagEl.innerHTML = flagSVGs[lang];
+    document.getElementById('langLabelBtn').textContent = cfg.label;
+    document.querySelectorAll('.lang-option').forEach((opt, i) => {
+      opt.classList.toggle('active', ['es','en','fr'][i] === lang);
+    });
+    document.getElementById('langMenu').classList.remove('open');
+  }
+
+  function toggleLang() { setLang(lang === 'es' ? 'en' : 'es'); }
+
+  // ---- WHATSAPP ----
+  function sendWhatsApp() {
+    const checkin = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    const guests = document.getElementById('guests').value;
+    const nombre = document.getElementById('nombre').value;
     let msg;
     if (lang === 'es') {
-      msg = `¡Hola! Me llamo ${nombre || 'un interesado'} y quisiera consultar disponibilidad en Casa Tecoa.\n\n📅 Llegada: ${checkin || 'por definir'}\n📅 Salida: ${checkout || 'por definir'}\n👥 Huéspedes: ${guests}\n\n¿Está disponible?`;
+      msg = `¡Hola! Me llamo ${nombre || 'un interesado'} y quisiera consultar disponibilidad en Casa Tecoa.\n\n📅 Llegada: ${checkin || 'por definir'}\n📅 Salida: ${checkout || 'por definir'}\n👥 Huéspedes: ${guests || 'por definir'}
+
+¡Gracias!`;
+    } else if (lang === 'fr') {
+      msg = `Bonjour! Je m'appelle ${nombre || 'un intéressé'} et je voudrais vérifier la disponibilité à Casa Tecoa.\n\n📅 Arrivée: ${checkin || 'à définir'}\n📅 Départ: ${checkout || 'à définir'}\n👥 Voyageurs: ${guests || 'à définir'}\n\nMerci!`;
     } else {
-      msg = `Hello! My name is ${nombre || 'a guest'} and I'd like to check availability at Casa Tecoa.\n\n📅 Check-in: ${checkin || 'TBD'}\n📅 Check-out: ${checkout || 'TBD'}\n👥 Guests: ${guests}\n\nIs it available?`;
+      msg = `Hello! My name is ${nombre || 'an interested guest'} and I'd like to check availability at Casa Tecoa.\n\n📅 Check-in: ${checkin || 'TBD'}\n📅 Check-out: ${checkout || 'TBD'}\n👥 Guests: ${guests || 'TBD'}\n\nThank you!`;
     }
-    window.open('https://wa.me/50685953437?text=' + encodeURIComponent(msg), '_blank');
+    const url = `https://wa.me/50685953437?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
   }
 </script>
-
 </body>
 </html>
