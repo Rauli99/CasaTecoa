@@ -195,16 +195,65 @@
   .calendar-wrapper iframe { display: block; width: 100%; height: 550px; border: none; }
 
   @media (max-width: 768px) {
-    nav { padding: 0 16px; }
-    .nav-links { gap: 14px; }
-    .nav-links a { font-size: 12px; }
-    .hero-btns { gap: 8px; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; }
-    .reserve-grid, .location-grid { grid-template-columns: 1fr; }
-    .footer-top { flex-direction: column; }
-    .form-row { grid-template-columns: 1fr; }
+    /* NAV — más compacta y legible en móvil */
+    nav { padding: 0 12px; height: 58px; }
+    .nav-logo img { height: 42px !important; }
+    .nav-links { gap: 10px; }
+    .nav-links a { font-size: 13px; }
+    .lang-btn { padding: 5px 10px; font-size: 13px; }
+
+    /* HERO — texto y botones adaptados */
+    .hero { min-height: 520px; height: auto; padding: 100px 0 60px; }
+    .hero-content { padding: 0 16px; }
+    .hero-eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 12px; }
+    .hero-title { font-size: clamp(36px, 11vw, 56px); margin-bottom: 16px; }
+    .hero-sub { font-size: 15px; margin-bottom: 28px; padding: 0 8px; }
+    .hero-btns { gap: 8px; padding: 0 8px; }
+    .btn-primary, .btn-secondary { padding: 11px 20px; font-size: 15px; }
+
+    /* SECCIONES — más aire respirable */
+    section { padding: 60px 16px; }
+    .section-title { font-size: clamp(28px, 7vw, 38px) !important; }
+    .section-sub { font-size: 15px; }
+
+    /* DUEÑOS — foto arriba, texto abajo */
+    .equipo-section { grid-template-columns: 1fr; gap: 32px; }
+    .equipo-foto-wrap { height: 320px; }
+
+    /* RESEÑAS — una columna */
+    .resenas-grid { grid-template-columns: 1fr; gap: 18px; }
+
+    /* GALERÍA — 2 columnas en lugar de 4 */
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* RESERVAR — formulario apilado */
+    .reserve-grid, .location-grid { grid-template-columns: 1fr; gap: 32px; }
+    .form-row { grid-template-columns: 1fr; gap: 14px; }
+    .reserve-form { padding: 28px 20px; }
+    .contact-link { padding: 12px 14px; font-size: 13px; }
+
+    /* FOOTER — apilado y centrado */
+    .footer-top { flex-direction: column; gap: 28px; }
+    .footer-brand { max-width: 100%; }
+
+    /* WHATSAPP FLOTANTE — un poco más pequeño */
+    .whatsapp-float { width: 52px; height: 52px; bottom: 20px; right: 20px; }
+    .whatsapp-float svg { width: 26px; height: 26px; }
+
+    /* MODAL DE FOTOS — botones de navegación al alcance */
     .modal-prev { left: 8px; }
     .modal-next { right: 8px; }
+
+    /* CALENDARIO — altura ajustada */
+    .calendar-wrapper iframe { height: 450px; }
+  }
+
+  @media (max-width: 420px) {
+    .nav-links { gap: 8px; }
+    .nav-links a { font-size: 12px; }
+    .nav-logo img { height: 38px !important; }
+    .hero-title { font-size: clamp(32px, 12vw, 48px); }
+    .btn-primary, .btn-secondary { padding: 10px 16px; font-size: 14px; }
   }
 </style>
 <link rel="preload" as="image" href="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Portada%20cambiante/12.jpg">
@@ -224,12 +273,12 @@
     <img src="https://xenjguiamxadxfdziggu.supabase.co/storage/v1/object/public/TecoaGaleria/Assets/Logo_Casa_Tecoa.png" alt="Casa Tecoa" style="height:56px;width:auto;">
   </div>
   <div class="nav-links">
-    <a onclick="showTab('home')" class="lang-es">Inicio</a>
-    <a onclick="showTab('home')" class="lang-en" style="display:none">Home</a>
-    <a onclick="showTab('home')" class="lang-fr" style="display:none">Accueil</a>
     <a onclick="showTab('reserve')" class="lang-es">Reservar</a>
     <a onclick="showTab('reserve')" class="lang-en" style="display:none">Book</a>
     <a onclick="showTab('reserve')" class="lang-fr" style="display:none">Réserver</a>
+    <a onclick="showTab('gallery')" class="lang-es">Galería</a>
+    <a onclick="showTab('gallery')" class="lang-en" style="display:none">Gallery</a>
+    <a onclick="showTab('gallery')" class="lang-fr" style="display:none">Galerie</a>
     <a onclick="showTab('resenas')" class="lang-es">Reseñas</a>
     <a onclick="showTab('resenas')" class="lang-en" style="display:none">Reviews</a>
     <a onclick="showTab('resenas')" class="lang-fr" style="display:none">Avis</a>
@@ -1081,6 +1130,64 @@
     });
     document.getElementById('langMenu').classList.remove('open');
     actualizarFechasResenas();
+  }
+
+  function toggleLang() { setLang(lang === 'es' ? 'en' : 'es'); }
+
+  // ---- WHATSAPP ----
+  function sendWhatsApp() {
+    const checkin = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    const guests = document.getElementById('guests').value;
+    const nombre = document.getElementById('nombre').value;
+    let msg;
+    if (lang === 'es') {
+      msg = `¡Hola! Me llamo ${nombre || 'un interesado'} y quisiera consultar disponibilidad en Casa Tecoa.\n\n📅 Llegada: ${checkin || 'por definir'}\n📅 Salida: ${checkout || 'por definir'}\n👥 Huéspedes: ${guests || 'por definir'}\n\n¡Gracias!`;
+    } else if (lang === 'fr') {
+      msg = `Bonjour! Je m'appelle ${nombre || 'un intéressé'} et je voudrais vérifier la disponibilité à Casa Tecoa.\n\n📅 Arrivée: ${checkin || 'à définir'}\n📅 Départ: ${checkout || 'à définir'}\n👥 Voyageurs: ${guests || 'à définir'}\n\nMerci!`;
+    } else {
+      msg = `Hello! My name is ${nombre || 'an interested guest'} and I'd like to check availability at Casa Tecoa.\n\n📅 Check-in: ${checkin || 'TBD'}\n📅 Check-out: ${checkout || 'TBD'}\n👥 Guests: ${guests || 'TBD'}\n\nThank you!`;
+    }
+    const url = `https://wa.me/50685953437?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  // ---- FECHAS RELATIVAS DE RESEÑAS ----
+  function tiempoRelativo(fechaStr, idioma) {
+    const fecha = new Date(fechaStr + 'T12:00:00');
+    const ahora = new Date();
+    const diffMs = ahora - fecha;
+    const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffSemanas = Math.floor(diffDias / 7);
+    const diffMeses = Math.floor(diffDias / 30.44);
+    const diffAnios = Math.floor(diffDias / 365.25);
+
+    const textos = {
+      es: { hoy: 'Hoy', ayer: 'Ayer', dias: n => `Hace ${n} días`, semana1: 'Hace 1 semana', semanas: n => `Hace ${n} semanas`, mes1: 'Hace 1 mes', meses: n => `Hace ${n} meses`, anio1: 'Hace 1 año', anios: n => `Hace ${n} años` },
+      en: { hoy: 'Today', ayer: 'Yesterday', dias: n => `${n} days ago`, semana1: '1 week ago', semanas: n => `${n} weeks ago`, mes1: '1 month ago', meses: n => `${n} months ago`, anio1: '1 year ago', anios: n => `${n} years ago` },
+      fr: { hoy: "Aujourd'hui", ayer: 'Hier', dias: n => `Il y a ${n} jours`, semana1: 'Il y a 1 semaine', semanas: n => `Il y a ${n} semaines`, mes1: 'Il y a 1 mois', meses: n => `Il y a ${n} mois`, anio1: 'Il y a 1 an', anios: n => `Il y a ${n} ans` }
+    };
+    const t = textos[idioma] || textos.es;
+
+    if (diffDias < 1) return t.hoy;
+    if (diffDias === 1) return t.ayer;
+    if (diffDias < 7) return t.dias(diffDias);
+    if (diffSemanas === 1) return t.semana1;
+    if (diffDias < 30) return t.semanas(diffSemanas);
+    if (diffMeses === 1) return t.mes1;
+    if (diffMeses < 12) return t.meses(diffMeses);
+    if (diffAnios === 1) return t.anio1;
+    return t.anios(diffAnios);
+  }
+
+  function actualizarFechasResenas() {
+    document.querySelectorAll('.resena-fecha').forEach(el => {
+      const fecha = el.getAttribute('data-fecha');
+      if (fecha) el.textContent = tiempoRelativo(fecha, lang);
+    });
+  }
+
+  actualizarFechasResenas();
 </script>
 </body>
 </html>
